@@ -11,7 +11,9 @@ export class LoginPage implements OnInit {
 
   username = '';
   password = '';
-  constructor(public afAuth: AngularFireAuth) { }
+  constructor(
+    public afAuth: AngularFireAuth,
+    ) { }
 
   ngOnInit() {
   }
@@ -20,12 +22,11 @@ export class LoginPage implements OnInit {
     const { username, password } = this;
     try {
       const res = await this.afAuth.auth.signInWithEmailAndPassword(username, password);
-    } catch(err) {
-      console.dir(err)
+    } catch (err) {
+      console.dir(err);
       if (err.code === 'auth/user-not-found') {
         console.log('User not found');
       }
     }
   }
-
 }
