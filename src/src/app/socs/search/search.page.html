@@ -4,6 +4,11 @@
       <ion-menu-button menuId="navId"></ion-menu-button>
     </ion-buttons>    
     <ion-title>Search</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/socs/tabs/search/new">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -32,14 +37,21 @@
     </ion-row>
     <ion-row>
       <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
-        <ion-list>
-          <ion-item *ngFor="let soc of loadedSocs.slice(1)" [routerLink]="['/', 'socs', 'tabs', 'search', soc.id]" detail>
+        <ion-virtual-scroll 
+          [items]="listedLoadedPlaces"
+          approxItemHeight="60px"
+        >
+          <ion-item 
+            [routerLink]="['/', 'socs', 'tabs', 'search', soc.id]"
+            detail
+            *virtualItem="let soc"
+          >
             <ion-label>
               <h2>{{ soc.title }}</h2>
               <p>{{ soc.description }}</p>
             </ion-label>
           </ion-item>
-        </ion-list>
+        </ion-virtual-scroll>
       </ion-col>
     </ion-row>
 

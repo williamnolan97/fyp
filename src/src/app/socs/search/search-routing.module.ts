@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'soc-detail',
     loadChildren: () => import('./soc-detail/soc-detail.module').then( m => m.SocDetailPageModule)
+  },
+  {
+    path: 'new',
+    loadChildren: () => import('./new/new.module').then( m => m.NewPageModule)
   }
 ];
 

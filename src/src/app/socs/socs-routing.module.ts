@@ -19,6 +19,11 @@ const routes: Routes = [
             path: ':socId',
             loadChildren: './search/soc-detail/soc-detail.module#SocDetailPageModule'
           },
+          {
+            path: 'new',
+            loadChildren:
+              './search/new/new.module#NewPageModule'
+          },
         ]
       },
       {
@@ -50,7 +55,7 @@ const routes: Routes = [
     path: '',
     redirectTo: 'tabs/todo',
     pathMatch: 'full'
-  }
+  },
 ];
 
 @NgModule({
