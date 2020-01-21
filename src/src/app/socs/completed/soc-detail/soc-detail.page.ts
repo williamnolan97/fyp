@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Soc } from '../../soc.model';
+import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { Soc } from '../../soc.model';
 import { SocsService } from '../../socs.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-soc-detail',
@@ -33,4 +33,5 @@ export class SocDetailPage implements OnInit, OnDestroy {
       this.socSub.unsubscribe();
     }
   }
+
 }

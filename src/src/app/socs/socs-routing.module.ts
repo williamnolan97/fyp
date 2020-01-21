@@ -46,6 +46,10 @@ const routes: Routes = [
             path: '',
             loadChildren: './completed/completed.module#CompletedPageModule'
           },
+          {
+            path: ':socId',
+            loadChildren: './completed/soc-detail/soc-detail.module#SocDetailPageModule'
+          },
         ]
       },
       {

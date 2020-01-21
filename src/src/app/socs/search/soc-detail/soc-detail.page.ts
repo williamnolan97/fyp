@@ -18,7 +18,7 @@ export class SocDetailPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
-      if(!paramMap.has('socId')) {
+      if (!paramMap.has('socId')) {
         this.navCtrl.navigateBack('/socs/tabs/search');
         return;
       }

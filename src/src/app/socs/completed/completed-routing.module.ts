@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: CompletedPage
+  },
+  {
+    path: 'soc-detail',
+    loadChildren: () => import('./soc-detail/soc-detail.module').then( m => m.SocDetailPageModule)
   }
 ];
 
