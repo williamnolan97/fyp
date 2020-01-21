@@ -17,7 +17,7 @@ const routes: Routes = [
           },
           {
             path: ':socId',
-            loadChildren: './search/soc-detail/soc-detail.module#SocDetailPageModule'
+            loadChildren: './search/soc-detail/soc-detail.module#SocDetailPageModule',
           },
           {
             path: 'new',
@@ -61,7 +61,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'tabs/todo',
+    redirectTo: 'tabs/search',
     pathMatch: 'full'
   },
 ];

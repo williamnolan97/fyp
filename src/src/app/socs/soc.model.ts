@@ -1,8 +1,10 @@
+import { SocQuestion } from './soc-question/soc-question.model';
+
 export class Soc {
     constructor(
       public id: string,
-      public title: string,
+      public name: string,
       public description: string,
-      public state: string,
+      public questions: SocQuestion[]
     ) {}
 }

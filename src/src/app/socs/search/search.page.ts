@@ -12,6 +12,7 @@ export class SearchPage implements OnInit, OnDestroy {
   loadedSocs: Soc[];
   listedLoadedPlaces: Soc[];
   private socsSub: Subscription;
+  isLoading = false;
 
   constructor(private socsService: SocsService) { }
 
@@ -19,6 +20,13 @@ export class SearchPage implements OnInit, OnDestroy {
     this.socsSub = this.socsService.socs.subscribe(socs => {
       this.loadedSocs = socs;
       this.listedLoadedPlaces = this.loadedSocs.slice(1);
+    });
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.socsService.fetchSocs().subscribe(() => {
+      this.isLoading = false;
     });
   }
 
