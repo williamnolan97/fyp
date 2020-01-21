@@ -3,7 +3,6 @@ import { take, map, tap, delay } from 'rxjs/operators';
 
 import { Soc } from './soc.model';
 import { BehaviorSubject } from 'rxjs';
-import { setTimeout } from 'timers';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +35,7 @@ export class SocsService {
 
   constructor() { }
 
-  getSoc(id: string){
+  getSoc(id: string) {
     return this.socs.pipe(
       take(1),
       map(socs => {

@@ -33,6 +33,10 @@ const routes: Routes = [
             path: '',
             loadChildren: './todo/todo.module#TodoPageModule'
           },
+          {
+            path: ':socId',
+            loadChildren: './todo/soc-detail/soc-detail.module#SocDetailPageModule'
+          },
         ]
       },
       {

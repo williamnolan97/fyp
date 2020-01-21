@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: TodoPage
+  },  {
+    path: 'soc-detail',
+    loadChildren: () => import('./soc-detail/soc-detail.module').then( m => m.SocDetailPageModule)
   }
+
 ];
 
 @NgModule({

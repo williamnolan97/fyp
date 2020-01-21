@@ -33,10 +33,4 @@ export class SocDetailPage implements OnInit, OnDestroy {
       this.socSub.unsubscribe();
     }
   }
-
-  onTakeSoc() {
-    // this.router.navigateByUrl('socs/tabs/search');
-    this.navCtrl.navigateBack('/socs/tabs/search');
-    // this.navCtrl.pop();
-  }
 }

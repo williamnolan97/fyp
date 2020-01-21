@@ -5,4 +5,4 @@ export class Soc {
       public description: string,
       public state: string,
     ) {}
-  }
+}
