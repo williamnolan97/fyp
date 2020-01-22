@@ -19,7 +19,7 @@ export class CompletedPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.socsSub = this.socsService.socs.subscribe(socs => {
-      this.loadedSocs = socs.filter(item => item.state === 'Completed');
+      this.loadedSocs = socs;
       this.listedLoadedPlaces = this.loadedSocs.slice(1);
     });
   }
