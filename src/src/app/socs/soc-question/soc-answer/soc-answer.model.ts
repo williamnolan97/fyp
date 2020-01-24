@@ -3,6 +3,6 @@ export class SocAnswer {
       public id: string,
       public questionId: string,
       public name: string,
-      public IsAnswer: boolean,
+      public isAnswer: boolean,
     ) {}
 }

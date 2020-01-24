@@ -33,6 +33,8 @@ export class AddAnswerPage implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required]
       }),
+      correct: new FormControl(false, {
+      }),
       // answer2: new FormControl(null, {
       //   updateOn: 'blur',
       //   validators: [Validators.required]
@@ -60,7 +62,7 @@ export class AddAnswerPage implements OnInit {
         socId,
         questionId,
         this.answerForm.value.answer1,
-        true
+        this.answerForm.value.correct
       ).subscribe(() => {
         loadingEl.dismiss();
         this.answerForm.reset();

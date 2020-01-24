@@ -1,30 +1,24 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavController, AlertController } from '@ionic/angular';
-import { Soc } from '../../soc.model';
-import { SocsService } from '../../socs.service';
+import { SocsService } from '../socs.service';
+import { SocQuestionService } from '../soc-question/soc-question.service';
+import { SocAnswerService } from '../soc-question/soc-answer/soc-answer.service';
 import { Subscription } from 'rxjs';
-import { SocQuestionService } from '../../soc-question/soc-question.service';
-import { SocQuestion } from '../../soc-question/soc-question.model';
-import { SocAnswerService } from '../../soc-question/soc-answer/soc-answer.service';
-import { SocAnswer } from '../../soc-question/soc-answer/soc-answer.model';
+import { Soc } from '../soc.model';
+import { SocQuestion } from '../soc-question/soc-question.model';
 
 @Component({
-  selector: 'app-soc-detail',
-  templateUrl: './soc-detail.page.html',
-  styleUrls: ['./soc-detail.page.scss'],
+  selector: 'app-start-soc',
+  templateUrl: './start-soc.page.html',
+  styleUrls: ['./start-soc.page.scss'],
 })
-export class SocDetailPage implements OnInit, OnDestroy {
+export class StartSocPage implements OnInit, OnDestroy {
   soc: Soc;
-  loadedSocQuestions: SocQuestion[];
-  loadedSocAnswers: SocAnswer[];
-  private socSub: Subscription;
-  private socQuestionSub: Subscription;
-  private socAnswerSub: Subscription;
-  public socId: string;
-  public questionId: string;
+  questions: SocQuestion[];
   isLoading = false;
-  isAnswersLoading = false;
+  private socSub: Subscription;
+  private socQuestionsSub: Subscription;
 
   constructor(
     private router: Router,
@@ -63,18 +57,8 @@ export class SocDetailPage implements OnInit, OnDestroy {
           }).then(alertEl => alertEl.present());
         });
     });
-    this.socQuestionSub = this.socQuestionsService.socQuestions.subscribe(socQuestions => {
-      this.loadedSocQuestions = socQuestions.filter(item =>
-        item.socId === this.socId
-      );
-    });
-  }
-
-  ionViewWillEnter() {
-    this.socId = this.route.snapshot.paramMap.get('socId');
-    this.isLoading = true;
-    this.socQuestionsService.fetchQuestions(this.socId).subscribe(() => {
-      this.isLoading = false;
+    this.socQuestionsSub = this.socQuestionsService.socQuestions.subscribe(socQuestions => {
+      this.questions = socQuestions;
     });
   }
 
@@ -82,11 +66,9 @@ export class SocDetailPage implements OnInit, OnDestroy {
     if (this.socSub) {
       this.socSub.unsubscribe();
     }
-    if (this.socQuestionSub) {
-      this.socQuestionSub.unsubscribe();
-    }
-    if (this.socAnswerSub) {
-      this.socAnswerSub.unsubscribe();
+    if (this.socQuestionsSub) {
+      this.socQuestionsSub.unsubscribe();
     }
   }
+
 }

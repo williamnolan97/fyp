@@ -64,6 +64,14 @@ const routes: Routes = [
     redirectTo: 'tabs/search',
     pathMatch: 'full'
   },
+  {
+    path: 'start-soc/:socId',
+    loadChildren: () => import('./start-soc/start-soc.module').then( m => m.StartSocPageModule)
+  },
+  {
+    path: 'results/:socId',
+    loadChildren: () => import('./results/results.module').then( m => m.ResultsPageModule)
+  },
 ];
 
 @NgModule({

@@ -53,6 +53,23 @@ export class SocQuestionService {
     );
   }
 
+  getQuestion(socId: string, questionId: string) {
+    return this.http
+    .get<SocQuestionData>(
+      `https://fyp-wnolan.firebaseio.com/soc/${socId}/questions/${questionId}.json`
+    )
+    .pipe(
+      map(questionData => {
+        return new SocQuestion(
+          questionId,
+          questionData.socId,
+          questionData.name,
+          questionData.answers
+        );
+      })
+    );
+  }
+
   addSocQuestion(socId: string, name: string) {
     let generatedId: string;
     const newSocQuestion = new SocQuestion(

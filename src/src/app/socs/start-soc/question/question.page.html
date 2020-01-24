@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ isLoading ? 'Loading..' : soc.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoadingQuestion" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>  
+  <ion-grid *ngIf="!isLoadingQuestion" class="ion-text-center">
+    <p>{{ question.name }}</p>
+  </ion-grid>
+  <div *ngIf="isLoadingAnswer" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>  
+  <ion-grid *ngIf="!isLoadingAnswer" class="ion-text-center">
+    <ion-list>
+      <ion-item *ngFor="let answer of answers">
+        <ion-label (click)="checkAnswer(question.id, answer.isAnswer)" [routerLink]="[url]">{{ answer.name }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+</ion-content>

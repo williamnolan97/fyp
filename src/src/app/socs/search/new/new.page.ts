@@ -32,26 +32,6 @@ export class NewPage implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required, Validators.maxLength(100)]
       }),
-      question: new FormControl(null, {
-        updateOn: 'blur',
-        validators: [Validators.required]
-      }),
-      answer1: new FormControl(null, {
-        updateOn: 'blur',
-        validators: [Validators.required]
-      }),
-      answer2: new FormControl(null, {
-        updateOn: 'blur',
-        validators: [Validators.required]
-      }),
-      answer3: new FormControl(null, {
-        updateOn: 'blur',
-        validators: [Validators.required]
-      }),
-      answer4: new FormControl(null, {
-        updateOn: 'blur',
-        validators: [Validators.required]
-      }),
     });
   }
 

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons *ngIf="!isLoading" slot="start">
+    <ion-buttons slot="start">
       <ion-back-button defaultHref="socs/tabs/search/{{ socId }}"></ion-back-button>
     </ion-buttons>
     <ion-title>Add Answer</ion-title>
@@ -17,13 +17,21 @@
     <ion-row>
       <ion-col size-sm="6" offset-sm="3">
         <ion-item>
-          <ion-label position="floating">Correct Answer</ion-label>
+          <ion-label position="floating">Answer</ion-label>
           <ion-input 
             type="text" 
             autocomplete 
             autocorrect 
             formControlName="answer1"
           ></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3">
+        <ion-item>
+          <ion-label position="floating">Correct Answer?</ion-label>
+          <ion-checkbox formControlName="correct"></ion-checkbox>
         </ion-item>
       </ion-col>
       <!-- <ion-col size-sm="6" offset-sm="3">
