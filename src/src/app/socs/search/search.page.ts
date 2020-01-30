@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SocsService } from '../socs.service';
 import { Soc } from '../soc.model';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
+import { UserData } from 'src/app/auth/userData.model';
 
 @Component({
   selector: 'app-search',
@@ -11,15 +13,23 @@ import { Subscription } from 'rxjs';
 export class SearchPage implements OnInit, OnDestroy {
   loadedSocs: Soc[];
   listedLoadedPlaces: Soc[];
+  userData: UserData;
   private socsSub: Subscription;
+  private authSub: Subscription;
   isLoading = false;
 
-  constructor(private socsService: SocsService) { }
+  constructor(
+    private socsService: SocsService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.socsSub = this.socsService.socs.subscribe(socs => {
       this.loadedSocs = socs;
       this.listedLoadedPlaces = this.loadedSocs.slice(1);
+    });
+    this.authSub = this.authService.currUser.subscribe(userData => {
+      this.userData = userData;
     });
   }
 
@@ -33,6 +43,9 @@ export class SearchPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.socsSub) {
       this.socsSub.unsubscribe();
+    }
+    if (this.authSub) {
+      this.authSub.unsubscribe();
     }
   }
 }

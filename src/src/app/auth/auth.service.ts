@@ -3,7 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, switchMap } from 'rxjs/operators';
+import { SrvRecord } from 'dns';
+import { UserData } from './userData.model';
+import { fn } from '@angular/compiler/src/output/output_ast';
 
 export interface AuthResponseData {
   kind: string;
@@ -20,6 +23,7 @@ export interface AuthResponseData {
 })
 export class AuthService {
   private _user = new BehaviorSubject<User>(null);
+  private _currUser = new BehaviorSubject<UserData>(null);
 
   get userIsAuthenticated() {
     return this._user.asObservable().pipe(
@@ -45,6 +49,10 @@ export class AuthService {
     );
   }
 
+  get currUser() {
+    return this._currUser.asObservable();
+  }
+
   constructor(
     private http: HttpClient,
   ) { }
@@ -54,8 +62,27 @@ export class AuthService {
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${
         environment.firebaseAPIKey
       }`,
-      {email: email, password: password, returnSecureToken: true}
+      {email, password, returnSecureToken: true}
     ).pipe(tap(this.setUserData.bind(this)));
+  }
+
+  createUser(userId: string, email: string, fname: string, lname: string) {
+    const newUser = new UserData(
+      userId,
+      email,
+      fname,
+      lname,
+      []
+    );
+    return this.http
+      .post('https://fyp-wnolan.firebaseio.com/user.json', {
+        ...newUser
+      })
+      .pipe(
+        tap(() => {
+          this._currUser.next(newUser);
+        })
+      );
   }
 
   login(email: string, password: string) {
@@ -63,8 +90,36 @@ export class AuthService {
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${
         environment.firebaseAPIKey
       }`,
-      {email: email, password: password}
+      {email, password}
     ).pipe(tap(this.setUserData.bind(this)));
+  }
+
+  updateCurrUser(id: string) {
+    return this.http
+      .get<{[key: string]: UserData}>(
+        'https://fyp-wnolan.firebaseio.com/user.json'
+      )
+      .pipe(map(resData => {
+        const user = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key)) {
+            if (resData[key].id === id) {
+              user.push(new UserData(
+                id,
+                resData[key].email,
+                resData[key].fname,
+                resData[key].lname,
+                resData[key].socs
+              ));
+            }
+          }
+        }
+        return user;
+      }),
+      tap(user => {
+        this._currUser.next(user[0]);
+      })
+    );
   }
 
   logout() {
