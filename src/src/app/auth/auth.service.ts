@@ -54,7 +54,7 @@ export class AuthService {
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${
         environment.firebaseAPIKey
       }`,
-      { email: email, password: password, returnSecureToken: true}
+      {email: email, password: password, returnSecureToken: true}
     ).pipe(tap(this.setUserData.bind(this)));
   }
 
