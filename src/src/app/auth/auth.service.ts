@@ -73,8 +73,9 @@ export class AuthService {
       []
     );
     return this.http
-      .post('https://fyp-wnolan.firebaseio.com/user.json', {
-        ...newUser
+      .post(`https://fyp-wnolan.firebaseio.com/user/${userId}.json`, {
+        ...newUser,
+        id: null
       })
       .pipe(
         tap(() => {
@@ -95,21 +96,23 @@ export class AuthService {
   updateCurrUser(id: string) {
     return this.http
       .get<{[key: string]: UserData}>(
-        'https://fyp-wnolan.firebaseio.com/user.json'
+        `https://fyp-wnolan.firebaseio.com/user/${id}.json`
       )
       .pipe(map(resData => {
+        // console.log(resData);
         const user = [];
         for (const key in resData) {
           if (resData.hasOwnProperty(key)) {
-            if (resData[key].id === id) {
-              user.push(new UserData(
-                id,
-                resData[key].email,
-                resData[key].fname,
-                resData[key].lname,
-                resData[key].socs
-              ));
-            }
+            // console.log(key);
+            // console.log(resData[key].id);
+            // console.log(resData[key].socs);
+            user.push(new UserData(
+              key,
+              resData[key].email,
+              resData[key].fname,
+              resData[key].lname,
+              resData[key].socs
+            ));
           }
         }
         return user;

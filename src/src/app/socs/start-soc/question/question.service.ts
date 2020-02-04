@@ -5,19 +5,29 @@ import { Injectable } from '@angular/core';
 })
 export class QuestionService {
   incorrectQuestions: string[] = [];
-  finalIncorrect: string[] = [];
+  finalIncorrectNames: string[] = [];
+  finalIncorrectIDs: string[] = [];
   firstRun = true;
   score = 0;
 
   constructor() { }
 
-  addIncorrectQuestion(question: string) {
-    this.incorrectQuestions.push(question);
-    this.finalIncorrect.push(question);
+  addIncorrectQuestion(questionID: string, questionName) {
+    this.incorrectQuestions.push(questionID);
+    this.finalIncorrectIDs.push(questionID);
+    this.finalIncorrectNames.push(questionName);
   }
 
   getIncorrectQuestions() {
     return this.incorrectQuestions;
+  }
+
+  getFinalIncorrectQuestionIDs() {
+    return this.finalIncorrectIDs;
+  }
+
+  getFinalIncorrectQuestionNames() {
+    return this.finalIncorrectNames;
   }
 
   removeIncorrectQuestion() {
@@ -30,7 +40,7 @@ export class QuestionService {
 
   firstRunDone() {
     this.firstRun = false;
-    console.log(this.finalIncorrect);
+    console.log(this.finalIncorrectIDs);
   }
 
   addScore() {

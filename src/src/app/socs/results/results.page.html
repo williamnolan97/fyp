@@ -13,7 +13,30 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        {{ score }}
+        {{ score }} out of {{ totalQuestions }}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="incorrect.length > 0">
+    <ion-row>
+      <ion-col>
+        <h3>You got these questions wrong:</h3>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-virtual-scroll 
+          [items]="incorrect"
+          approxItemHeight="60px"
+        >
+          <ion-item 
+            *virtualItem="let socQuestion"
+          >
+            <ion-label>
+              <h2>{{ socQuestion }}</h2>
+            </ion-label>
+          </ion-item>
+        </ion-virtual-scroll>
       </ion-col>
     </ion-row>
   </ion-grid>

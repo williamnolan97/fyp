@@ -128,9 +128,9 @@ export class QuestionPage implements OnInit, OnDestroy {
     });
   }
 
-  checkAnswer(question: string, answer: boolean) {
+  checkAnswer(questionID: string, questionName: string, answer: boolean) {
     if (!answer) {
-      this.questionService.addIncorrectQuestion(question);
+      this.questionService.addIncorrectQuestion(questionID, questionName);
       if (this.nextIndex
         === this.questions.length) {
           this.questionService.firstRunDone();
