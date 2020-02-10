@@ -12,13 +12,24 @@ export class QuestionService {
 
   constructor() { }
 
+  reset() {
+    this.incorrectQuestions = [];
+    this.finalIncorrectIDs = [];
+    this.finalIncorrectNames = [];
+    this.firstRun = true;
+    this.score = 0;
+  }
+
   addIncorrectQuestion(questionID: string, questionName) {
     this.incorrectQuestions.push(questionID);
-    this.finalIncorrectIDs.push(questionID);
-    this.finalIncorrectNames.push(questionName);
+    if (!this.finalIncorrectIDs.includes(questionID)) {
+      this.finalIncorrectIDs.push(questionID);
+      this.finalIncorrectNames.push(questionName);
+    }
   }
 
   getIncorrectQuestions() {
+    console.log('getincorrect ' + this.incorrectQuestions);
     return this.incorrectQuestions;
   }
 

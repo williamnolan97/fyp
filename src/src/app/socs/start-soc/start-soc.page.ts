@@ -7,6 +7,7 @@ import { SocAnswerService } from '../soc-question/soc-answer/soc-answer.service'
 import { Subscription } from 'rxjs';
 import { Soc } from '../soc.model';
 import { SocQuestion } from '../soc-question/soc-question.model';
+import { QuestionService } from './question/question.service';
 
 @Component({
   selector: 'app-start-soc',
@@ -26,11 +27,13 @@ export class StartSocPage implements OnInit, OnDestroy {
     private navCtrl: NavController,
     private socsService: SocsService,
     private socQuestionsService: SocQuestionService,
+    private questionsService: QuestionService,
     private socAnswersService: SocAnswerService,
     private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
+    this.questionsService.reset();
     this.route.paramMap.subscribe(paramMap => {
       if (!paramMap.has('socId')) {
         this.navCtrl.navigateBack('/socs/tabs/search');

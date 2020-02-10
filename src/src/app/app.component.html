@@ -17,6 +17,12 @@
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle menuId="navId">
+          <ion-item lines="none" routerLink="/socs/review">
+            <ion-icon name="clipboard" slot="start"></ion-icon>
+            <ion-label>Review SOCs</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle menuId="navId">
           <ion-item lines="none" (click)="onLogout()">
             <ion-icon name="exit" slot="start"></ion-icon>
             <ion-label>Logout</ion-label>
