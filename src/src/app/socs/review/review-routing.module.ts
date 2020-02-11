@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: ReviewPage
+  },
+  {
+    path: ':userId',
+    loadChildren: () => import('./review-detail/review-detail.module').then( m => m.ReviewDetailPageModule)
   }
 ];
 

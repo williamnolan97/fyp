@@ -71,7 +71,8 @@ const routes: Routes = [
   {
     path: 'results/:socId',
     loadChildren: () => import('./results/results.module').then( m => m.ResultsPageModule)
-  },  {
+  },
+  {
     path: 'review',
     loadChildren: () => import('./review/review.module').then( m => m.ReviewPageModule)
   },
