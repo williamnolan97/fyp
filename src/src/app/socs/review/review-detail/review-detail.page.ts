@@ -15,9 +15,11 @@ import { Soc } from '../../soc.model';
 export class ReviewDetailPage implements OnInit, OnDestroy {
   user: UserData;
   loadedSocs: Soc[];
+  listSocs: Soc[];
   private userSub: Subscription;
   private reviewDetailSub: Subscription;
   isLoading = false;
+  isItemAvailable = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -57,6 +59,7 @@ export class ReviewDetailPage implements OnInit, OnDestroy {
     });
     this.reviewDetailSub = this.reviewDetailService.socs.subscribe(socs => {
       this.loadedSocs = socs;
+      this.listSocs = socs;
     });
   }
 
@@ -82,4 +85,18 @@ export class ReviewDetailPage implements OnInit, OnDestroy {
     }
   }
 
+  initializeItems() {
+    this.listSocs = this.loadedSocs;
+  }
+
+  filter(event: any) {
+    this.initializeItems();
+    const val = event.target.value;
+    if (val && val.trim() !== '') {
+      this.isItemAvailable = true;
+      this.listSocs = this.listSocs.filter((item) => {
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      });
+    }
+  }
 }

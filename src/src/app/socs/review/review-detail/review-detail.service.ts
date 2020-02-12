@@ -59,7 +59,6 @@ export class ReviewDetailService {
   }
 
   getSocIds(userId: string) {
-    console.log('henlo');
     return this.http
       .get<{[key: string]: string[]}>(
         `https://fyp-wnolan.firebaseio.com/result/${userId}.json`
@@ -75,8 +74,6 @@ export class ReviewDetailService {
       }),
       tap(socs => {
         this.socIds = socs;
-        console.log(socs);
-        console.log(this.socIds);
       }));
   }
 }
