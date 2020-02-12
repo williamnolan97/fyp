@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NavController, AlertController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ReviewDetailService } from './review-detail.service';
+import { Soc } from '../../soc.model';
 
 @Component({
   selector: 'app-review-detail',
@@ -12,7 +14,9 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class ReviewDetailPage implements OnInit, OnDestroy {
   user: UserData;
-  userSub: Subscription;
+  loadedSocs: Soc[];
+  private userSub: Subscription;
+  private reviewDetailSub: Subscription;
   isLoading = false;
 
   constructor(
@@ -21,6 +25,7 @@ export class ReviewDetailPage implements OnInit, OnDestroy {
     private authService: AuthService,
     private alertCtrl: AlertController,
     private router: Router,
+    private reviewDetailService: ReviewDetailService,
   ) { }
 
   ngOnInit() {
@@ -50,11 +55,30 @@ export class ReviewDetailPage implements OnInit, OnDestroy {
           }).then(alertEl => alertEl.present());
         });
     });
+    this.reviewDetailSub = this.reviewDetailService.socs.subscribe(socs => {
+      this.loadedSocs = socs;
+    });
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.route.paramMap.subscribe(paramMap => {
+      if (!paramMap.has('userId')) {
+        this.navCtrl.navigateBack('/socs/review');
+        return;
+      }
+      this.reviewDetailService.getSocs(paramMap.get('userId')).subscribe(() => {
+        this.isLoading = false;
+      });
+    });
   }
 
   ngOnDestroy() {
     if (this.userSub) {
       this.userSub.unsubscribe();
+    }
+    if (this.reviewDetailSub) {
+      this.reviewDetailSub.unsubscribe();
     }
   }
 

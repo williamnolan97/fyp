@@ -15,26 +15,6 @@ interface SocData {
   name: string;
 }
 
-// new Soc(
-//   's1',
-//   'Health and Safety',
-//   'Health and Safety Station Observation Checklist',
-//   'Completed',
-//   ),
-// new Soc(
-//   's2',
-//   'Security',
-//   'Security Station Observation Checklist',
-//   'Completed',
-//   ),
-// new Soc(
-//   's3',
-//   'Food Safety',
-//   'Food Safety Station Observation Checklist',
-//   'Todo'
-//   ),
-
-
 @Injectable({
   providedIn: 'root'
 })
