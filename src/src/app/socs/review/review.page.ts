@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UserData } from 'src/app/auth/userData.model';
 import { Subscription } from 'rxjs';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-review',
@@ -11,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class ReviewPage implements OnInit, OnDestroy {
   loadedUsers: UserData[];
   listUsers: UserData[];
+  fullName: string;
   private usersSub: Subscription;
   isLoading = false;
   isItemAvailable = false;
@@ -39,13 +41,14 @@ export class ReviewPage implements OnInit, OnDestroy {
 
   filter(event: any) {
     this.initializeItems();
-
+    this.fullName = '';
     const val = event.target.value;
     console.log(val);
     if (val && val.trim() !== '') {
       this.isItemAvailable = true;
       this.listUsers = this.listUsers.filter((item) => {
-        return (item.fullName.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        this.fullName = item.fname + ' ' + item.lname;
+        return (this.fullName.toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
     }
   }

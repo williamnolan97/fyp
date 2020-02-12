@@ -86,7 +86,6 @@ export class AuthService {
                   resData[key][key2].email,
                   resData[key][key2].fname,
                   resData[key][key2].lname,
-                  resData[key][key2].fullName,
                   resData[key][key2].userId,
                   resData[key][key2].socs
                 )
@@ -121,7 +120,6 @@ export class AuthService {
               resData[key].email,
               resData[key].fname,
               resData[key].lname,
-              resData[key].fullName,
               resData[key].userId,
               resData[key].socs
             );
@@ -146,7 +144,6 @@ export class AuthService {
       email,
       fname,
       lname,
-      fname + ' ' + lname,
       userId,
       []
     );
@@ -189,7 +186,6 @@ export class AuthService {
               resData[key].email,
               resData[key].fname,
               resData[key].lname,
-              resData[key].fullName,
               resData[key].userId,
               resData[key].socs
             ));

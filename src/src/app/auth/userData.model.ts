@@ -4,7 +4,6 @@ export class UserData {
         public email: string,
         public fname: string,
         public lname: string,
-        public fullName: string,
         public userId: string,
         public socs: string[],
     ) {}
