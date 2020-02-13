@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="socs/review"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Results</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>  
+  <ion-list *ngIf="!isLoading && results.length > 0">
+    <ion-item
+      *ngFor="let result of results"
+      detail
+    >
+      {{ result.date }}
+    </ion-item>
+  </ion-list>
+</ion-content>

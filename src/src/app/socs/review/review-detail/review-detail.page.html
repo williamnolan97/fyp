@@ -21,6 +21,7 @@
   <ion-list *ngIf="!isLoading && listSocs.length > 0">
     <ion-item 
       *ngFor="let soc of listSocs"
+      [routerLink]="['/', 'socs', 'review', userId, soc.id]"
       detail
     >
     {{ soc.name }}

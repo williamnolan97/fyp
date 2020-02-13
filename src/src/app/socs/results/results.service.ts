@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Result } from './result.model';
 import { HttpClient } from '@angular/common/http';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { switchMap, take, tap, map } from 'rxjs/operators';
+
+interface ResultData {
+  result: number;
+  total: number;
+  incorrect: string[];
+  date: Date;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +25,34 @@ private _results = new BehaviorSubject<Result[]>([]);
     return this._results.asObservable();
   }
 
+  fetchResults(userId: string, socId: string) {
+    return this.http
+      .get<{[key: string]: ResultData}>(
+        `https://fyp-wnolan.firebaseio.com/result/${userId}/${socId}.json`
+      )
+      .pipe(map(resData => {
+        const results = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key)) {
+            results.push(new Result(
+              key,
+              resData[key].result,
+              resData[key].total,
+              resData[key].incorrect,
+              resData[key].date
+            ));
+          }
+        }
+        results.sort((a, b) => {
+          return b.date.localeCompare(a.date) || 0;
+        });
+        return results;
+      }),
+      tap(results => {
+        this._results.next(results);
+      })
+      );
+  }
   addResult(userId: string, socId: string, result: number, total: number, incorrect: string[]) {
     console.log('adding result');
     let generateId: string;

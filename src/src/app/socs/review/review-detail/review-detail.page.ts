@@ -16,6 +16,7 @@ export class ReviewDetailPage implements OnInit, OnDestroy {
   user: UserData;
   loadedSocs: Soc[];
   listSocs: Soc[];
+  userId: string;
   private userSub: Subscription;
   private reviewDetailSub: Subscription;
   isLoading = false;
@@ -36,6 +37,7 @@ export class ReviewDetailPage implements OnInit, OnDestroy {
         this.navCtrl.navigateBack('/socs/review');
         return;
       }
+      this.userId = paramMap.get('userId');
       this.isLoading = true;
       this.userSub = this.authService
         .getUser(paramMap.get('userId'))
