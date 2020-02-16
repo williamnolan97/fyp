@@ -12,7 +12,7 @@ import { UserData } from 'src/app/auth/userData.model';
 })
 export class SearchPage implements OnInit, OnDestroy {
   loadedSocs: Soc[];
-  listedLoadedPlaces: Soc[];
+  listedLoadedSocs: Soc[];
   userData: UserData;
   private socsSub: Subscription;
   private authSub: Subscription;
@@ -26,7 +26,7 @@ export class SearchPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.socsSub = this.socsService.socs.subscribe(socs => {
       this.loadedSocs = socs;
-      this.listedLoadedPlaces = this.loadedSocs.slice(1);
+      this.listedLoadedSocs = this.loadedSocs.slice(1);
     });
     this.authSub = this.authService.currUser.subscribe(userData => {
       this.userData = userData;

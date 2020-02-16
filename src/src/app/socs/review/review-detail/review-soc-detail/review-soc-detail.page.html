@@ -16,7 +16,8 @@
       *ngFor="let result of results"
       detail
     >
-      {{ result.date }}
+      {{ result.date | date: 'longDate' }} 
+      {{ result.result / result.total * 100 }}%
     </ion-item>
   </ion-list>
 </ion-content>
