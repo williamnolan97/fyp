@@ -34,10 +34,6 @@
       </ion-col> 
     </ion-row>      
   </ion-grid>
-
-  <div *ngIf="isLoading" class="ion-text-center">
-    <ion-spinner color="primary"></ion-spinner>
-  </div>  
   <p *ngIf="!isLoading && loadedSocQuestions.length <= 0" class="ion-text-center">No Questions found.</p>
   <ion-grid *ngIf="!isLoading && loadedSocQuestions.length > 0">
     <ion-row>

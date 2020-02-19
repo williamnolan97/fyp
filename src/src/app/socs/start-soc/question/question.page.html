@@ -11,9 +11,6 @@
   <ion-grid *ngIf="!isLoadingQuestion" class="ion-text-center">
     <p>{{ question.name }}</p>
   </ion-grid>
-  <div *ngIf="isLoadingAnswer" class="ion-text-center">
-    <ion-spinner color="primary"></ion-spinner>
-  </div>  
   <ion-grid *ngIf="!isLoadingAnswer" class="ion-text-center">
     <ion-list>
       <ion-item *ngFor="let answer of answers">

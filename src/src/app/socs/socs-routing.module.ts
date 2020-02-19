@@ -40,19 +40,6 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'completed',
-        children: [
-          {
-            path: '',
-            loadChildren: './completed/completed.module#CompletedPageModule'
-          },
-          {
-            path: ':socId',
-            loadChildren: './completed/soc-detail/soc-detail.module#SocDetailPageModule'
-          },
-        ]
-      },
-      {
         path: '',
         redirectTo: '/todo',
         pathMatch: 'full'
