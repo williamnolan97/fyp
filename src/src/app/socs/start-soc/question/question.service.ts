@@ -20,7 +20,7 @@ export class QuestionService {
     this.score = 0;
   }
 
-  addIncorrectQuestion(questionID: string, questionName) {
+  addIncorrectQuestion(questionID: string, questionName: string) {
     this.incorrectQuestions.push(questionID);
     if (!this.finalIncorrectIDs.includes(questionID)) {
       this.finalIncorrectIDs.push(questionID);
@@ -29,7 +29,6 @@ export class QuestionService {
   }
 
   getIncorrectQuestions() {
-    console.log('getincorrect ' + this.incorrectQuestions);
     return this.incorrectQuestions;
   }
 
@@ -51,7 +50,6 @@ export class QuestionService {
 
   firstRunDone() {
     this.firstRun = false;
-    console.log(this.finalIncorrectIDs);
   }
 
   addScore() {

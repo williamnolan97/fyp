@@ -14,8 +14,16 @@
   <ion-grid *ngIf="!isLoadingAnswer" class="ion-text-center">
     <ion-list>
       <ion-item *ngFor="let answer of answers">
-        <ion-label (click)="checkAnswer(question.id, question.name, answer.isAnswer)" [routerLink]="[url]">{{ answer.name }}</ion-label>
+        <ion-label (click)="checkAnswer(question.id, question.name, answer.isAnswer)">{{ answer.name }}</ion-label>
       </ion-item>
     </ion-list>
   </ion-grid>
+  <div *ngIf="correct && answered">
+    Correct! <br>
+    <ion-button [routerLink]="[url]" (click)="reset()"> Next question</ion-button>
+  </div>
+  <div *ngIf="!correct && answered">
+    Incorrect! <br>
+    <ion-button [routerLink]="[url]" (click)="reset()"> Next question</ion-button>
+  </div>
 </ion-content>

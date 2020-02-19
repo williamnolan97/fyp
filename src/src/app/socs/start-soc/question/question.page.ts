@@ -28,6 +28,8 @@ export class QuestionPage implements OnInit, OnDestroy {
   private socSub: Subscription;
   private socQuestionsSub: Subscription;
   private socAnswerSub: Subscription;
+  answered: boolean;
+  correct: boolean;
 
   constructor(
     private router: Router,
@@ -94,29 +96,6 @@ export class QuestionPage implements OnInit, OnDestroy {
         .fetchQuestions(paramMap.get('socId'))
         .subscribe(socQuestions => {
           this.questions = socQuestions;
-          this.nextIndex = this.questions.findIndex(x => x.id === paramMap.get('questionId')) + 1;
-          if (
-            this.nextIndex
-            >= this.questions.length
-            || !this.questionService.isFirstRun()
-          ) {
-            if (this.questionService.getIncorrectQuestions().length === 0) {
-              this.url = '/socs/results/' + paramMap.get('socId');
-            } else {
-              this.url =
-                '/socs/start-soc/'
-                + paramMap.get('socId')
-                + '/question/'
-                + this.questionService.getIncorrectQuestions()[0];
-              this.questionService.removeIncorrectQuestion();
-            }
-          } else {
-            this.url =
-              '/socs/start-soc/'
-              + paramMap.get('socId')
-              + '/question/'
-              + this.questions[this.questions.findIndex(x => x.id === paramMap.get('questionId')) + 1].id;
-          }
         });
       this.isLoadingAnswer = true;
       this.socAnswerSub = this.socAnswersService
@@ -126,18 +105,25 @@ export class QuestionPage implements OnInit, OnDestroy {
           this.isLoadingAnswer = false;
         });
     });
+
+  }
+  reset() {
+    this.answered = false;
+    this.correct = null;
   }
 
   checkAnswer(questionID: string, questionName: string, answer: boolean) {
+    this.nextIndex = this.questions.findIndex(x => x.id === this.question.id) + 1;
     if (!answer) {
+      this.correct = false;
       this.questionService.addIncorrectQuestion(questionID, questionName);
       if (this.nextIndex
         === this.questions.length) {
           this.questionService.firstRunDone();
         }
     } else {
+      this.correct = true;
       if (this.questionService.isFirstRun()) {
-        console.log(this.nextIndex + ' ' + this.questions.length);
         if (this.nextIndex
           === this.questions.length) {
             this.questionService.firstRunDone();
@@ -145,6 +131,27 @@ export class QuestionPage implements OnInit, OnDestroy {
         this.questionService.addScore();
       }
     }
+    if (this.questionService.isFirstRun()) {
+      this.url =
+        '/socs/start-soc/'
+        + this.soc.id
+        + '/question/'
+        + this.questions[this.nextIndex].id;
+    } else {
+      if (this.questionService.getIncorrectQuestions().length === 0) {
+        this.url =
+          '/socs/results/' +
+          this.soc.id;
+      } else {
+        this.url =
+          '/socs/start-soc/'
+          + this.soc.id
+          + '/question/'
+          + this.questionService.getIncorrectQuestions()[0];
+        this.questionService.removeIncorrectQuestion();
+      }
+    }
+    this.answered = true;
   }
 
   shuffle(array: SocAnswer[]) {
