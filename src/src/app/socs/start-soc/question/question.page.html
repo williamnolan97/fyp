@@ -4,26 +4,31 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <div *ngIf="isLoadingQuestion" class="ion-text-center">
     <ion-spinner color="primary"></ion-spinner>
   </div>  
   <ion-grid *ngIf="!isLoadingQuestion" class="ion-text-center">
-    <p>{{ question.name }}</p>
+    <h2>{{ question.name }}</h2>
   </ion-grid>
   <ion-grid *ngIf="!isLoadingAnswer" class="ion-text-center">
     <ion-list>
       <ion-item *ngFor="let answer of answers">
-        <ion-label (click)="checkAnswer(question.id, question.name, answer.isAnswer)">{{ answer.name }}</ion-label>
+        <h4 (click)="checkAnswer(question.id, question.name, answer.isAnswer)">{{ answer.name }}</h4>
       </ion-item>
     </ion-list>
-  </ion-grid>
-  <div *ngIf="correct && answered">
-    Correct! <br>
-    <ion-button [routerLink]="[url]" (click)="reset()"> Next question</ion-button>
-  </div>
-  <div *ngIf="!correct && answered">
-    Incorrect! <br>
-    <ion-button [routerLink]="[url]" (click)="reset()"> Next question</ion-button>
-  </div>
+  </ion-grid>  
 </ion-content>
+<ion-footer no-border class="correct" *ngIf="answered && correct">
+  <ion-grid class="ion-padding">
+    <h3 class="correctText">You are correct</h3>
+    <ion-button [routerLink]="[url]" (click)="reset()" expand="block" color="success" style="float: center;">Continue</ion-button>
+  </ion-grid>
+</ion-footer>
+<ion-footer no-border class="incorrect" *ngIf="answered && !correct">
+  <ion-grid class="ion-padding">
+    <h3 class="incorrectText">Correct answer:</h3>
+    <p class="incorrectAnswer">{{ correctAnswer }}</p>
+    <ion-button [routerLink]="[url]" (click)="reset()" expand="block" color="danger" style="float: center;">Continue</ion-button>
+  </ion-grid>  
+</ion-footer>

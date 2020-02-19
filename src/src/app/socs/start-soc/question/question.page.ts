@@ -30,6 +30,7 @@ export class QuestionPage implements OnInit, OnDestroy {
   private socAnswerSub: Subscription;
   answered: boolean;
   correct: boolean;
+  correctAnswer: string;
 
   constructor(
     private router: Router,
@@ -102,11 +103,12 @@ export class QuestionPage implements OnInit, OnDestroy {
         .fetchAnswers(paramMap.get('socId'), paramMap.get('questionId'))
         .subscribe(socAnswers => {
           this.answers = this.shuffle(socAnswers);
+          this.correctAnswer = this.answers[this.answers.findIndex(x => x.isAnswer === true)].name;
           this.isLoadingAnswer = false;
         });
     });
-
   }
+
   reset() {
     this.answered = false;
     this.correct = null;
