@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavController, AlertController } from '@ionic/angular';
-import { Soc } from '../../soc.model';
-import { SocsService } from '../../socs.service';
+import { Soc } from '../../../models/soc.model';
+import { SocsService } from 'src/app/services/socs.service';
 import { Subscription } from 'rxjs';
 
 @Component({

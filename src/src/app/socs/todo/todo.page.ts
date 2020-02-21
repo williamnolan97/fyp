@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SocsService } from '../socs.service';
-import { Soc } from '../soc.model';
+import { SocsService } from 'src/app/services/socs.service';
+import { Soc } from '../../models/soc.model';
 import { Subscription } from 'rxjs';
 
 @Component({

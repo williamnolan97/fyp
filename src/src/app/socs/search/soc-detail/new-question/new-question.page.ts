@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Soc } from 'src/app/socs/soc.model';
+import { SocsService } from 'src/app/services/socs.service';
+import { SocQuestionService } from 'src/app/services/soc-question.service';
+import { Soc } from 'src/app/models/soc.model';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavController, AlertController, LoadingController } from '@ionic/angular';
-import { SocsService } from 'src/app/socs/socs.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { SocQuestionService } from 'src/app/socs/soc-question/soc-question.service';
 
 @Component({
   selector: 'app-new-question',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, AuthResponseData } from './auth.service';
+import { AuthService, AuthResponseData } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';

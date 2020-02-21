@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Result } from './result.model';
+import { Result } from '../models/result.model';
 import { HttpClient } from '@angular/common/http';
 import { switchMap, take, tap, map } from 'rxjs/operators';
 

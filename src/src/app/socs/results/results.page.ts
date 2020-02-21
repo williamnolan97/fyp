@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { QuestionService } from '../start-soc/question/question.service';
-import { SocQuestionService } from '../soc-question/soc-question.service';
+import { QuestionService } from '../../services/question.service';
+import { SocQuestionService } from '../../services/soc-question.service';
 import { Subscription, throwError } from 'rxjs';
-import { ResultsService } from './results.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { ResultsService } from '../../services/results.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Route } from '@angular/compiler/src/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';

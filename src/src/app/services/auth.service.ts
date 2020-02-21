@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
-import { User } from './user.model';
+import { User } from '../models/user.model';
 import { map, tap } from 'rxjs/operators';
-import { UserData } from './userData.model';
+import { UserData } from '../models/userData.model';
+import { environment } from 'src/environments/environment';
 
 export interface AuthResponseData {
   kind: string;

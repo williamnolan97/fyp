@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NavController, AlertController, LoadingController } from '@ionic/angular';
-import { SocsService } from 'src/app/socs/socs.service';
-import { SocQuestionService } from 'src/app/socs/soc-question/soc-question.service';
-import { SocAnswerService } from 'src/app/socs/soc-question/soc-answer/soc-answer.service';
+import { LoadingController } from '@ionic/angular';
+import { SocAnswerService } from 'src/app/services/soc-answer.service';
 
 @Component({
   selector: 'app-add-answer',
@@ -19,9 +17,7 @@ export class AddAnswerPage implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private navCtrl: NavController,
     private socAnswersService: SocAnswerService,
-    private alertCtrl: AlertController,
     private loadingCtrl: LoadingController
   ) { }
 
@@ -35,18 +31,6 @@ export class AddAnswerPage implements OnInit {
       }),
       correct: new FormControl(false, {
       }),
-      // answer2: new FormControl(null, {
-      //   updateOn: 'blur',
-      //   validators: [Validators.required]
-      // }),
-      // answer3: new FormControl(null, {
-      //   updateOn: 'blur',
-      //   validators: [Validators.required]
-      // }),
-      // answer4: new FormControl(null, {
-      //   updateOn: 'blur',
-      //   validators: [Validators.required]
-      // }),
     });
   }
 

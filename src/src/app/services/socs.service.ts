@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { take, map, tap, delay, switchMap } from 'rxjs/operators';
 
-import { Soc } from './soc.model';
+import { Soc } from 'src/app/models/soc.model';
 import { BehaviorSubject } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
-import { NewPageModule } from './search/new/new.module';
-import { SocQuestion } from './soc-question/soc-question.model';
-import { SocAnswer } from './soc-question/soc-answer/soc-answer.model';
+import { NewPageModule } from 'src/app/socs/search/new/new.module';
+import { SocQuestion } from 'src/app/models/soc-question.model';
+import { SocAnswer } from 'src/app/models/soc-answer.model';
 
 interface SocData {
   description: string;

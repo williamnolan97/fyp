@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from 'src/app/auth/auth.service';
-import { UserData } from 'src/app/auth/userData.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserData } from 'src/app/models/userData.model';
 import { Subscription } from 'rxjs';
 import { stringify } from 'querystring';
 

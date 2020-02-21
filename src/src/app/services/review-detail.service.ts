@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
-import { SocsService } from '../../socs.service';
+import { SocsService } from 'src/app/services/socs.service';
 import { BehaviorSubject } from 'rxjs';
-import { Soc } from '../../soc.model';
-import { SocQuestion } from '../../soc-question/soc-question.model';
+import { Soc } from '../models/soc.model';
+import { SocQuestion } from '../models/soc-question.model';
 
 interface SocData {
   description: string;

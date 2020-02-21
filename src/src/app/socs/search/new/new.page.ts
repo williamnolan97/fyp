@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { SocsService } from '../../socs.service';
+import { SocsService } from 'src/app/services/socs.service';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
-import { SocQuestion } from '../../soc-question/soc-question.model';
-import { SocAnswer } from '../../soc-question/soc-answer/soc-answer.model';
-import { SocQuestionService } from '../../soc-question/soc-question.service';
+import { SocQuestion } from '../../../models/soc-question.model';
+import { SocAnswer } from '../../../models/soc-answer.model';
+import { SocQuestionService } from '../../../services/soc-question.service';
 
 @Component({
   selector: 'app-new',

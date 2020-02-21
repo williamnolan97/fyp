@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavController, AlertController } from '@ionic/angular';
-import { SocsService } from '../socs.service';
-import { SocQuestionService } from '../soc-question/soc-question.service';
-import { SocAnswerService } from '../soc-question/soc-answer/soc-answer.service';
+import { SocsService } from 'src/app/services/socs.service';
+import { SocQuestionService } from '../../services/soc-question.service';
+import { SocAnswerService } from '../../services/soc-answer.service';
 import { Subscription } from 'rxjs';
-import { Soc } from '../soc.model';
-import { SocQuestion } from '../soc-question/soc-question.model';
-import { QuestionService } from './question/question.service';
+import { Soc } from '../../models/soc.model';
+import { SocQuestion } from '../../models/soc-question.model';
+import { QuestionService } from '../../services/question.service';
 
 @Component({
   selector: 'app-start-soc',

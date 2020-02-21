@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UserData } from 'src/app/auth/userData.model';
+import { UserData } from 'src/app/models/userData.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController, AlertController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/auth/auth.service';
-import { ReviewDetailService } from './review-detail.service';
-import { Soc } from '../../soc.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { ReviewDetailService } from '../../../services/review-detail.service';
+import { Soc } from '../../../models/soc.model';
 
 @Component({
   selector: 'app-review-detail',

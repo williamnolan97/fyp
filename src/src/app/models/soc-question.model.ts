@@ -1,4 +1,4 @@
-import { SocAnswer } from './soc-answer/soc-answer.model';
+import { SocAnswer } from './soc-answer.model';
 
 export class SocQuestion {
     constructor(

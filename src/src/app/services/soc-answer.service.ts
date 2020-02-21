@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { SocAnswer } from './soc-answer.model';
+import { SocAnswer } from '../models/soc-answer.model';
 import { BehaviorSubject } from 'rxjs';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { switchMap, take, tap, map } from 'rxjs/operators';
 

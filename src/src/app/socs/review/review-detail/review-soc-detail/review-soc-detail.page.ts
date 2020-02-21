@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SocsService } from 'src/app/socs/socs.service';
+import { SocsService } from 'src/app/services/socs.service';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { Soc } from 'src/app/socs/soc.model';
-import { Result } from 'src/app/socs/results/result.model';
-import { ResultsService } from 'src/app/socs/results/results.service';
+import { Soc } from 'src/app/models/soc.model';
+import { Result } from 'src/app/models/result.model';
+import { ResultsService } from 'src/app/services/results.service';
 
 @Component({
   selector: 'app-review-soc-detail',
