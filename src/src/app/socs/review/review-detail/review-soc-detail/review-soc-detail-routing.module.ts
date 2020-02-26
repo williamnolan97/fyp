@@ -7,7 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: ReviewSocDetailPage
+  },
+  {
+    path: ':resultId',
+    loadChildren: () => import('./view-result-detail/view-result-detail.module').then( m => m.ViewResultDetailPageModule)
   }
+
 ];
 
 @NgModule({

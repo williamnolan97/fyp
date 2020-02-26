@@ -41,14 +41,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/todo',
+        redirectTo: 'todo',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: 'tabs/search',
+    redirectTo: 'tabs/todo',
     pathMatch: 'full'
   },
   {

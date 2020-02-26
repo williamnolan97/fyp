@@ -11,13 +11,32 @@
   <div *ngIf="isLoading" class="ion-text-center">
     <ion-spinner color="primary"></ion-spinner>
   </div>  
-  <ion-list *ngIf="!isLoading && results.length > 0">
-    <ion-item
+  <ion-grid *ngIf="!isLoading && results.length > 0">
+    <ion-row class="border">
+      <ion-col class="heading">
+        Date
+      </ion-col>
+      <ion-col class="heading">
+        Wrong Answers
+      </ion-col>
+      <ion-col class="heading">
+        Result(%)
+      </ion-col>      
+    </ion-row>
+    <ion-row
+      class="borderLight"
       *ngFor="let result of results"
-      detail
+      [routerLink]="['/', 'socs', 'review', userId, soc.id, result.id]"
     >
-      {{ result.date | date: 'longDate' }} 
-      {{ result.result / result.total * 100 }}%
-    </ion-item>
-  </ion-list>
+      <ion-col>
+        {{ result.date | date: 'longDate' }} 
+      </ion-col>
+      <ion-col>
+        {{ result.total - result.result }} 
+      </ion-col>
+      <ion-col>
+        {{ result.result / result.total * 100  | number: '1.0-0'}}%
+      </ion-col>      
+    </ion-row>
+  </ion-grid>
 </ion-content>

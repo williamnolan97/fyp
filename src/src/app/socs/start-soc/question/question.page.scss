@@ -19,3 +19,8 @@
     color: #208800;
     font-weight: bold;
 }
+
+section:not(.full-width),
+  .full-width > header {
+    padding: 0 10px;
+  }
