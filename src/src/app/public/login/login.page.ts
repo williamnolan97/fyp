@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase/app';
+import { NgForm } from '@angular/forms';
+import { Auth2Service } from '../auth2.service';
 
 @Component({
   selector: 'app-login',
@@ -8,26 +9,24 @@ import { auth } from 'firebase/app';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  email: string;
-  password: string;
 
   constructor(
-    public afAuth: AngularFireAuth
+    public afAuth: AngularFireAuth,
+    public authSerive: Auth2Service
   ) { }
 
   ngOnInit() {
   }
 
-  async login() {
-    const { email, password } = this;
-    try {
-      const res = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
-    } catch (err) {
-      console.dir(err);
-      if (err.code === 'auth/user-not-found') {
-        console.log('User not found');
-      }
+  onSubmit(form: NgForm) {
+    if (!form.valid) {
+      return;
     }
+    const email = form.value.email;
+    const password = form.value.password;
+    this.authSerive.login(email, password);
+    form.reset();
   }
+
 
 }
