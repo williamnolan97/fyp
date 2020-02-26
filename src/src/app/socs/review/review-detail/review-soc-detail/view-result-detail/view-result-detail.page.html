@@ -20,5 +20,8 @@
   </ion-grid>
   <ion-grid *ngIf="!isLoading">
     {{ result.date | date: 'longDate'}}    
+    <ion-row *ngFor="let question of socQuestions">
+      {{ question.name }}
+    </ion-row>
   </ion-grid>
 </ion-content>

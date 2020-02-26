@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { Soc } from 'src/app/models/soc.model';
 import { SocQuestionService } from 'src/app/services/soc-question.service';
 import { SocQuestion } from 'src/app/models/soc-question.model';
+import { ReviewDetailService } from 'src/app/services/review-detail.service';
 
 @Component({
   selector: 'app-view-result-detail',
@@ -21,15 +22,17 @@ export class ViewResultDetailPage implements OnInit, OnDestroy {
   private doughnutChart: Chart;
   result: Result;
   soc: Soc;
+  socQuestions: SocQuestion[];
   socId: string;
   userId: string;
   resultId: string;
   isLoading = false;
   private resultSub: Subscription;
-  private socQuestionSub: Subscription;
+  private reviewDetailSub: Subscription;
 
   constructor(
     public resultService: ResultsService,
+    public reviewDetailService: ReviewDetailService,
     public socQuestionService: SocQuestionService,
     public route: ActivatedRoute,
     private navCtrl: NavController,
@@ -56,11 +59,17 @@ export class ViewResultDetailPage implements OnInit, OnDestroy {
       this.resultSub = this.resultService.getResult(this.resultId, this.socId, this.userId).subscribe(result => {
         this.result = result;
         this.setDoughnut();
+        this.getQuestions();
         this.isLoading = false;
       });
     });
   }
 
+  getQuestions() {
+    this.reviewDetailSub = this.reviewDetailService.getQuestions(this.result.incorrect, this.socId).subscribe(questions => {
+      this.socQuestions = questions;
+    });
+  }
   setDoughnut() {
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'doughnut',
@@ -68,11 +77,10 @@ export class ViewResultDetailPage implements OnInit, OnDestroy {
         labels: ['Correct', 'Incorrect'],
         datasets: [
           {
-            label: '# of Votes',
             data: [this.result.result, this.result.total - this.result.result],
             backgroundColor: [
-              'rgba(54, 162, 235)',
-              'rgba(255, 99, 132)',
+              '#00ff00',
+              '#ff0000',
             ],
           }
         ]
@@ -87,6 +95,9 @@ export class ViewResultDetailPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.resultSub) {
       this.resultSub.unsubscribe();
+    }
+    if (this.reviewDetailSub) {
+      this.reviewDetailSub.unsubscribe();
     }
   }
 }
