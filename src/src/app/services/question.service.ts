@@ -9,6 +9,7 @@ export class QuestionService {
   finalIncorrectIDs: string[] = [];
   firstRun = true;
   score = 0;
+  progress = 0;
 
   constructor() { }
 
@@ -18,6 +19,7 @@ export class QuestionService {
     this.finalIncorrectNames = [];
     this.firstRun = true;
     this.score = 0;
+    this.progress = 0;
   }
 
   addIncorrectQuestion(questionID: string, questionName: string) {
@@ -58,6 +60,14 @@ export class QuestionService {
 
   getScore() {
     return this.score;
+  }
+
+  addProgress() {
+    this.progress++;
+  }
+
+  getProgress() {
+    return this.progress;
   }
 
 }

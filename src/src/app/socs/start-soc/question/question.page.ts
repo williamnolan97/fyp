@@ -16,6 +16,8 @@ import { QuestionService } from '../../../services/question.service';
   styleUrls: ['./question.page.scss'],
 })
 export class QuestionPage implements OnInit, OnDestroy {
+  disabled = false;
+  toggle: boolean[] = [];
   soc: Soc;
   question: SocQuestion;
   questions: SocQuestion[];
@@ -31,6 +33,7 @@ export class QuestionPage implements OnInit, OnDestroy {
   answered: boolean;
   correct: boolean;
   correctAnswer: string;
+  progress: number;
 
   constructor(
     private router: Router,
@@ -40,7 +43,7 @@ export class QuestionPage implements OnInit, OnDestroy {
     private socQuestionsService: SocQuestionService,
     private socAnswersService: SocAnswerService,
     private questionService: QuestionService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
   ) { }
 
   ngOnInit() {
@@ -58,6 +61,7 @@ export class QuestionPage implements OnInit, OnDestroy {
         .getSoc(paramMap.get('socId'))
         .subscribe(soc => {
           this.soc = soc;
+          this.progress = this.questionService.getProgress();
           this.isLoading = false;
         }, error => {
           this.alertCtrl.create({
@@ -103,15 +107,37 @@ export class QuestionPage implements OnInit, OnDestroy {
         .fetchAnswers(paramMap.get('socId'), paramMap.get('questionId'))
         .subscribe(socAnswers => {
           this.answers = this.shuffle(socAnswers);
+          // tslint:disable-next-line: prefer-for-of
+          for (let i = 0; i < this.answers.length; i++) {
+            this.toggle.push(true);
+          }
           this.correctAnswer = this.answers[this.answers.findIndex(x => x.isAnswer === true)].name;
           this.isLoadingAnswer = false;
         });
     });
   }
 
+  runAll(questionID: string, questionName: string, answer: boolean, index: number) {
+    if (!this.disabled) {
+      this.selectionMade(index);
+      this.checkAnswer(questionID, questionName, answer);
+    }
+  }
+
+  selectionMade(index: number) {
+    this.toggle[index] = !this.toggle[index];
+    this.disabled = true;
+  }
+
   reset() {
     this.answered = false;
     this.correct = null;
+    this.disabled = false;
+    this.toggle = [];
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.answers.length; i++) {
+      this.toggle.push(true);
+    }
   }
 
   checkAnswer(questionID: string, questionName: string, answer: boolean) {
@@ -124,6 +150,8 @@ export class QuestionPage implements OnInit, OnDestroy {
           this.questionService.firstRunDone();
         }
     } else {
+      this.questionService.addProgress();
+      this.progress = this.questionService.getProgress();
       this.correct = true;
       if (this.questionService.isFirstRun()) {
         if (this.nextIndex
