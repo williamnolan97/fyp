@@ -12,11 +12,10 @@
     <h2>{{ question.name }}</h2>
   </ion-grid>
   <ion-grid *ngIf="!isLoadingAnswer" class="ion-text-center">
-    <ion-list>
-      <ion-item *ngFor="let answer of answers">
-        <h4 (click)="checkAnswer(question.id, question.name, answer.isAnswer)">{{ answer.name }}</h4>
-      </ion-item>
-    </ion-list>
+    <section class="fullWidth" *ngFor="let answer of answers">
+      <ion-button (click)="checkAnswer(question.id, question.name, answer.isAnswer)" expand="full" size="large" text-wrap color="primary">{{ answer.name }}</ion-button>
+    </section>
+    <!-- <h4 (click)="checkAnswer(question.id, question.name, answer.isAnswer)">{{ answer.name }}</h4> -->
   </ion-grid>  
 </ion-content>
 <ion-footer no-border class="correct" *ngIf="answered && correct">

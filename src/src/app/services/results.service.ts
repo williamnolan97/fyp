@@ -80,4 +80,21 @@ private _results = new BehaviorSubject<Result[]>([]);
         })
       );
   }
+  getResult(id: string, socId: string, userId: string) {
+    return this.http
+    .get<ResultData>(
+      `https://fyp-wnolan.firebaseio.com/result/${userId}/${socId}/${id}.json`
+    )
+    .pipe(
+      map(resultData => {
+        return new Result(
+          id,
+          resultData.result,
+          resultData.total,
+          resultData.incorrect,
+          resultData.date
+        );
+      })
+    );
+  }
 }

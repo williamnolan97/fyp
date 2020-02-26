@@ -16,6 +16,7 @@ export class ReviewSocDetailPage implements OnInit, OnDestroy {
   isLoading = false;
   soc: Soc;
   results: Result[];
+  percents: number[];
   socId: string;
   userId: string;
   private socSub: Subscription;
