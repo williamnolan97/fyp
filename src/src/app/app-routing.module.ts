@@ -3,11 +3,23 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'register', pathMatch: 'full' },
+  { path: '', redirectTo: 'view-soc', pathMatch: 'full' },
   { path: 'auth', loadChildren: './auth/auth.module#AuthPageModule' },
-  { path: 'socs', loadChildren: './socs/socs.module#SocsPageModule'}, //, canLoad: [AuthGuard]
+  // { path: 'socs', loadChildren: './socs/socs.module#SocsPageModule'}, //, canLoad: [AuthGuard]
   { path: 'register', loadChildren: './public/register/register.module#RegisterPageModule' },
   { path: 'login', loadChildren: './public/login/login.module#LoginPageModule' },
+  {
+    path: 'view-soc',
+    loadChildren: () => import('./private/view-soc/view-soc.module').then( m => m.ViewSocPageModule)
+  },
+  {
+    path: 'take-soc',
+    loadChildren: () => import('./private/take-soc/take-soc.module').then( m => m.TakeSocPageModule)
+  },
+  {
+    path: 'review-soc',
+    loadChildren: () => import('./private/review-soc/review-soc.module').then( m => m.ReviewSocPageModule)
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,65 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { QuestionService } from 'src/app/services/question.service';
+import { SocQuestionService } from 'src/app/services/soc-question.service';
+import { ResultsService } from 'src/app/services/results.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
+
+@Component({
+  selector: 'app-soc-result',
+  templateUrl: './soc-result.page.html',
+  styleUrls: ['./soc-result.page.scss'],
+})
+export class SocResultPage implements OnInit, OnDestroy {
+  score: number;
+  incorrect: string[];
+  incorrectIds: string[];
+  totalQuestions: number;
+  socQuestionSub: Subscription;
+  userId: string;
+  socId: string;
+
+  constructor(
+    private questionService: QuestionService,
+    private socQuestionService: SocQuestionService,
+    private resultsService: ResultsService,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private navCtrl: NavController,
+  ) { }
+
+  ngOnInit() {
+    this.route.paramMap.subscribe(paramMap => {
+      if (!paramMap.has('socId')) {
+        this.navCtrl.navigateBack('view-soc');
+        return;
+      }
+      this.socId = paramMap.get('socId');
+    });
+    this.score = this.questionService.getScore();
+    this.incorrect = this.questionService.getFinalIncorrectQuestionNames();
+    this.incorrectIds = this.questionService.getFinalIncorrectQuestionIDs();
+    this.socQuestionSub = this.socQuestionService.socQuestions.subscribe(questions => {
+      this.totalQuestions = questions.length;
+    });
+    this.authService.userId.subscribe(id => {
+      this.userId = id;
+    });
+    this.resultsService.addResult(
+      this.userId,
+      this.socId,
+      this.score,
+      this.totalQuestions,
+      this.incorrectIds
+    ).subscribe();
+  }
+
+  ngOnDestroy() {
+    if (this.socQuestionSub) {
+      this.socQuestionSub.unsubscribe();
+    }
+  }
+
+}

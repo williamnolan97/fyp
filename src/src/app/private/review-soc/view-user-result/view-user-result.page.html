@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="review-soc"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isLoading ? 'Loading...' : user.fname }}'s SOCs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar showCancelButton="focus" (ionInput)="filter($event)"></ion-searchbar>
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>  
+  <p *ngIf="!isLoading && loadedSocs.length <= 0" class="ion-text-center">
+    User has no SOC results.
+  </p>
+  <p *ngIf="!isLoading && loadedSocs.length > 0 && listSocs.length <= 0" class="ion-text-center">
+    SOC not found.
+  </p>
+  <ion-list *ngIf="!isLoading && listSocs.length > 0">
+    <ion-item 
+      *ngFor="let soc of listSocs"
+      [routerLink]="['/', 'review-soc', userId, soc.id]"
+      detail
+    >
+    {{ soc.name }}
+    </ion-item>
+  </ion-list>
+</ion-content>

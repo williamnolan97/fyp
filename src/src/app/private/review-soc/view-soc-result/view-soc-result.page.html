@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="review-soc"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Results</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>  
+  <ion-grid *ngIf="!isLoading && results.length > 0">
+    <ion-row class="border">
+      <ion-col class="heading">
+        Date
+      </ion-col>
+      <ion-col class="heading">
+        Wrong Answers
+      </ion-col>
+      <ion-col class="heading">
+        Result(%)
+      </ion-col>      
+    </ion-row>
+    <ion-row
+      class="borderLight"
+      *ngFor="let result of results"
+      [routerLink]="['/', 'review-soc', userId, soc.id, result.id]"
+    >
+      <ion-col>
+        {{ result.date | date: 'longDate' }} 
+      </ion-col>
+      <ion-col>
+        {{ result.total - result.result }} 
+      </ion-col>
+      <ion-col>
+        {{ result.result / result.total * 100  | number: '1.0-0'}}%
+      </ion-col>      
+    </ion-row>
+  </ion-grid>
+</ion-content>

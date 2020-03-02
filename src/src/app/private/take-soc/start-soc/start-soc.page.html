@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="view-soc"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isLoading ? 'Loading..' : soc.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button *ngIf="!isLoading" [routerLink]="['/take-soc', soc.id, questions[0].id]">
+    Start
+  </ion-button>
+</ion-content>

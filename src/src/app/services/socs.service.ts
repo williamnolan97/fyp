@@ -5,9 +5,7 @@ import { Soc } from 'src/app/models/soc.model';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
-import { NewPageModule } from 'src/app/socs/search/new/new.module';
 import { SocQuestion } from 'src/app/models/soc-question.model';
-import { SocAnswer } from 'src/app/models/soc-answer.model';
 
 interface SocData {
   description: string;
