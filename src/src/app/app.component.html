@@ -23,6 +23,12 @@
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle menuId="navId">
+          <ion-item lines="none" routerLink="leaderboard">
+            <ion-icon name="podium" slot="start"></ion-icon>
+            <ion-label>Leaderboard</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle menuId="navId">
           <ion-item lines="none" (click)="onLogout()">
             <ion-icon name="exit" slot="start"></ion-icon>
             <ion-label>Logout</ion-label>

@@ -36,7 +36,7 @@ export class AuthPage implements OnInit {
           this.authService.updateCurrUser(resData.localId).subscribe();
           this.isLoading = false;
           loadingEl.dismiss();
-          this.router.navigateByUrl('/socs');
+          this.router.navigateByUrl('view-soc');
         }, errRes => {
           loadingEl.dismiss();
           const code = errRes.error.error.message;
@@ -63,7 +63,7 @@ export class AuthPage implements OnInit {
           this.authService.createUser(resData.localId, email, fname, lname).subscribe();
           this.isLoading = false;
           loadingEl.dismiss();
-          this.router.navigateByUrl('/socs');
+          this.router.navigateByUrl('view-soc');
           generatedId = resData.localId;
         }, errRes => {
           loadingEl.dismiss();

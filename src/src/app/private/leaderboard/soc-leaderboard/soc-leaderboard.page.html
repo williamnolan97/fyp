@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="leaderboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isLoadingSoc ? 'Loading...' : soc.name + ' Leaderboard'}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>  
+  <ion-grid *ngIf="!isLoading && leaderboard.length > 0">
+    <ion-row class="border">
+      <ion-col class="heading">
+        Rank
+      </ion-col>
+      <ion-col class="heading">
+        Name
+      </ion-col>
+      <ion-col class="heading">
+        Score
+      </ion-col>
+      <ion-col class="heading">
+        Date
+      </ion-col>      
+    </ion-row>
+    <ion-row
+      class="borderLight"
+      *ngFor="let record of leaderboard"
+    >
+      <ion-col>
+        {{ leaderboard.indexOf(record) + 1}} 
+      </ion-col> 
+      <ion-col>
+        {{ record.name }} 
+      </ion-col>  
+      <ion-col>
+        {{ record.score }} 
+      </ion-col>  
+      <ion-col>
+        {{ record.date | date: 'longDate' }} 
+      </ion-col>         
+    </ion-row>
+  </ion-grid>
+</ion-content>

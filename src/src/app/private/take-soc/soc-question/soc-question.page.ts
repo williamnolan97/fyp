@@ -34,6 +34,8 @@ export class SocQuestionPage implements OnInit, OnDestroy {
   correct: boolean;
   correctAnswer: string;
   progress: number;
+  now: Date;
+  timeAnswered: Date;
 
   constructor(
     private router: Router,
@@ -114,6 +116,10 @@ export class SocQuestionPage implements OnInit, OnDestroy {
           this.correctAnswer = this.answers[this.answers.findIndex(x => x.isAnswer === true)].name;
           this.isLoadingAnswer = false;
         });
+      this.now = new Date();
+      this.now.setSeconds(this.now.getSeconds() + 5);
+      console.log('now');
+      console.log(this.now.getTime());
     });
   }
 
@@ -141,6 +147,9 @@ export class SocQuestionPage implements OnInit, OnDestroy {
   }
 
   checkAnswer(questionID: string, questionName: string, answer: boolean) {
+    this.timeAnswered = new Date();
+    console.log('timeAnswered');
+    console.log(this.timeAnswered.getTime());
     this.nextIndex = this.questions.findIndex(x => x.id === this.question.id) + 1;
     if (!answer) {
       this.correct = false;
@@ -158,7 +167,10 @@ export class SocQuestionPage implements OnInit, OnDestroy {
           === this.questions.length) {
             this.questionService.firstRunDone();
           }
-        this.questionService.addScore();
+        this.questionService.addResult();
+        console.log('BONUS');
+        console.log((this.now.getTime() - this.timeAnswered.getTime()) / 10);
+        this.questionService.addScore((this.now.getTime() - this.timeAnswered.getTime()) / 10);
       }
     }
     if (this.questionService.isFirstRun()) {

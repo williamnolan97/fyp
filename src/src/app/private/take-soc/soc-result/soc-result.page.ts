@@ -14,6 +14,7 @@ import { NavController } from '@ionic/angular';
 })
 export class SocResultPage implements OnInit, OnDestroy {
   score: number;
+  result: number;
   incorrect: string[];
   incorrectIds: string[];
   totalQuestions: number;
@@ -38,9 +39,10 @@ export class SocResultPage implements OnInit, OnDestroy {
       }
       this.socId = paramMap.get('socId');
     });
-    this.score = this.questionService.getScore();
+    this.result = this.questionService.getResult();
     this.incorrect = this.questionService.getFinalIncorrectQuestionNames();
     this.incorrectIds = this.questionService.getFinalIncorrectQuestionIDs();
+    this.score = this.questionService.getScore();
     this.socQuestionSub = this.socQuestionService.socQuestions.subscribe(questions => {
       this.totalQuestions = questions.length;
     });
@@ -50,9 +52,13 @@ export class SocResultPage implements OnInit, OnDestroy {
     this.resultsService.addResult(
       this.userId,
       this.socId,
-      this.score,
+      this.result,
       this.totalQuestions,
       this.incorrectIds
+    ).subscribe();
+    this.resultsService.addLeaderboard(
+      this.socId,
+      this.score
     ).subscribe();
   }
 

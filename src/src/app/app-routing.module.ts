@@ -20,6 +20,10 @@ const routes: Routes = [
     path: 'review-soc',
     loadChildren: () => import('./private/review-soc/review-soc.module').then( m => m.ReviewSocPageModule)
   },
+  {
+    path: 'leaderboard',
+    loadChildren: () => import('./private/leaderboard/leaderboard.module').then( m => m.LeaderboardPageModule)
+  },
 ];
 
 @NgModule({
