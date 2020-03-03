@@ -8,7 +8,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-button *ngIf="!isLoading" [routerLink]="['/take-soc', soc.id, questions[0].id]">
-    Start
-  </ion-button>
+  <div *ngIf="!isLoading && !isLoadingQuestions">
+    <!-- [routerLink]="['/take-soc', soc.id, questions[0].id]" -->
+    <ion-button *ngIf="!started" size="large" (click)="startSoc()">
+      Start
+    </ion-button>
+    <h1 *ngIf="started">{{ countdown }}</h1>
+   </div>
+  
 </ion-content>

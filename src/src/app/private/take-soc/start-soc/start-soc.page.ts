@@ -17,6 +17,9 @@ export class StartSocPage implements OnInit, OnDestroy {
   soc: Soc;
   questions: SocQuestion[];
   isLoading = false;
+  isLoadingQuestions = false;
+  started = false;
+  countdown: string;
   private socSub: Subscription;
   private socQuestionsSub: Subscription;
 
@@ -57,10 +60,43 @@ export class StartSocPage implements OnInit, OnDestroy {
             ]
           }).then(alertEl => alertEl.present());
         });
+      this.isLoadingQuestions = true;
+      this.socQuestionsSub = this.socQuestionsService.socQuestions.subscribe(socQuestions => {
+        this.questions = socQuestions;
+        this.isLoadingQuestions = false;
+        console.log(this.questions);
+        console.log(this.questions[0].id);
+      });
     });
-    this.socQuestionsSub = this.socQuestionsService.socQuestions.subscribe(socQuestions => {
-      this.questions = socQuestions;
-    });
+  }
+
+  startSoc() {
+    this.started = true;
+    let counter = 0;
+    const i = setInterval(() => {
+      switch (counter) {
+        case 0:
+          this.countdown = '3';
+          break;
+        case 1:
+          this.countdown = '2';
+          break;
+        case 2:
+          this.countdown = '1';
+          break;
+        case 3:
+          this.countdown = 'GO!';
+          break;
+        default:
+          break;
+      }
+
+      counter++;
+      if (counter === 4) {
+          clearInterval(i);
+          this.router.navigate(['/', 'take-soc', this.soc.id, this.questions[0].id]);
+      }
+    }, 1000);
   }
 
   ngOnDestroy() {
