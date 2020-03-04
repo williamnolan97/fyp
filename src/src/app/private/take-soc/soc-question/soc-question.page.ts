@@ -9,6 +9,8 @@ import { SocsService } from 'src/app/services/socs.service';
 import { SocQuestionService } from 'src/app/services/soc-question.service';
 import { SocAnswerService } from 'src/app/services/soc-answer.service';
 import { QuestionService } from 'src/app/services/question.service';
+import { LeaderboardService } from 'src/app/services/leaderboard.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-soc-question',
@@ -45,6 +47,8 @@ export class SocQuestionPage implements OnInit, OnDestroy {
     private socQuestionsService: SocQuestionService,
     private socAnswersService: SocAnswerService,
     private questionService: QuestionService,
+    private leaderService: LeaderboardService,
+    private authService: AuthService,
     private alertCtrl: AlertController,
   ) { }
 
@@ -118,8 +122,6 @@ export class SocQuestionPage implements OnInit, OnDestroy {
         });
       this.now = new Date();
       this.now.setSeconds(this.now.getSeconds() + 5);
-      console.log('now');
-      console.log(this.now.getTime());
     });
   }
 
@@ -148,8 +150,6 @@ export class SocQuestionPage implements OnInit, OnDestroy {
 
   checkAnswer(questionID: string, questionName: string, answer: boolean) {
     this.timeAnswered = new Date();
-    console.log('timeAnswered');
-    console.log(this.timeAnswered.getTime());
     this.nextIndex = this.questions.findIndex(x => x.id === this.question.id) + 1;
     if (!answer) {
       this.correct = false;
@@ -168,8 +168,6 @@ export class SocQuestionPage implements OnInit, OnDestroy {
             this.questionService.firstRunDone();
           }
         this.questionService.addResult();
-        console.log('BONUS');
-        console.log((this.now.getTime() - this.timeAnswered.getTime()) / 10);
         this.questionService.addScore((this.now.getTime() - this.timeAnswered.getTime()) / 10);
       }
     }
@@ -181,6 +179,9 @@ export class SocQuestionPage implements OnInit, OnDestroy {
         + this.questions[this.nextIndex].id;
     } else {
       if (this.questionService.getIncorrectQuestions().length === 0) {
+        this.authService.currUser.subscribe(user => {
+          this.leaderService.compareScores(this.soc.id, user.fname + user.lname);
+        });
         this.url =
           '/take-soc/soc-result/' +
           this.soc.id;

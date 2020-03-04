@@ -6,6 +6,7 @@ import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { Soc } from 'src/app/models/soc.model';
 import { SocsService } from 'src/app/services/socs.service';
+import { LeaderboardService } from 'src/app/services/leaderboard.service';
 
 @Component({
   selector: 'app-soc-leaderboard',
@@ -15,20 +16,21 @@ import { SocsService } from 'src/app/services/socs.service';
 export class SocLeaderboardPage implements OnInit {
   leaderboard: Leaderboard[];
   soc: Soc;
-  private resultSub: Subscription;
+  private leaderSub: Subscription;
   private socSub: Subscription;
   isLoading = false;
   isLoadingSoc = false;
 
   constructor(
     private resultService: ResultsService,
+    private leaderService: LeaderboardService,
     private socService: SocsService,
     private route: ActivatedRoute,
     private navCtrl: NavController
   ) { }
 
   ngOnInit() {
-    this.resultSub = this.resultService
+    this.leaderSub = this.leaderService
         .leaderboard
         .subscribe(leaderboard => {
           this.leaderboard = leaderboard;
@@ -55,7 +57,7 @@ export class SocLeaderboardPage implements OnInit {
         this.navCtrl.navigateBack('/socs/review');
         return;
       }
-      this.resultSub = this.resultService
+      this.leaderSub = this.leaderService
         .fetchLeaderboard(paramMap.get('socId'))
         .subscribe(() => {
           this.isLoading = false;

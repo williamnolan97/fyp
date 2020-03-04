@@ -83,18 +83,13 @@ export class QuestionService {
       this.score += Math.round(bonus);
     }
     if (this.streak > 0) {
-      console.log('streak bonus');
       if (this.streak <= this.streakPoints.length) {
-        console.log(this.streakPoints[this.streak - 1]);
         this.score += this.streakPoints[this.streak - 1];
       } else {
-        console.log(this.streakPoints[this.streakPoints.length - 1]);
         this.score += this.streakPoints[this.streakPoints.length - 1];
       }
     }
     this.score += 100;
-    console.log('total');
-    console.log(this.score);
   }
 
   getScore() {
