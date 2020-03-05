@@ -109,7 +109,7 @@ export class SocQuestionPage implements OnInit, OnDestroy {
         .fetchQuestions(paramMap.get('socId'))
         .subscribe(socQuestions => {
           this.questions = socQuestions;
-          this.isLoadingProgress = false;;
+          this.isLoadingProgress = false;
         });
       this.isLoadingAnswer = true;
       this.socAnswerSub = this.socAnswersService
