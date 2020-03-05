@@ -31,7 +31,9 @@ export class LeaderboardService {
 
   compareScores(socId: string, name: string) {
     this.fetchLeaderboard(socId).subscribe(leaderboard => {
-      this.oldRecord = leaderboard[leaderboard.findIndex(x => x.name = name)];
+      if (leaderboard.find(x => x.name === name) !== undefined) {
+        this.oldRecord = leaderboard.find(x => x.name === name);
+      }
       console.log('oldRecord');
       console.log(this.oldRecord);
     });
