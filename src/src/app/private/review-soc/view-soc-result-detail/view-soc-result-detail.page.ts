@@ -65,9 +65,11 @@ export class ViewSocResultDetailPage implements OnInit, OnDestroy {
   }
 
   getQuestions() {
-    this.reviewDetailSub = this.reviewDetailService.getQuestions(this.result.incorrect, this.socId).subscribe(questions => {
-      this.socQuestions = questions;
-    });
+    if (this.result.incorrect !== undefined) {
+      this.reviewDetailSub = this.reviewDetailService.getQuestions(this.result.incorrect, this.socId).subscribe(questions => {
+        this.socQuestions = questions;
+      });
+    }
   }
   setDoughnut() {
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {

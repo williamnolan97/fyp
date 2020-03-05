@@ -64,8 +64,6 @@ export class StartSocPage implements OnInit, OnDestroy {
       this.socQuestionsSub = this.socQuestionsService.socQuestions.subscribe(socQuestions => {
         this.questions = socQuestions;
         this.isLoadingQuestions = false;
-        console.log(this.questions);
-        console.log(this.questions[0].id);
       });
     });
   }

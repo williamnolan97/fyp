@@ -29,6 +29,7 @@ export class SocQuestionPage implements OnInit, OnDestroy {
   isLoading = false;
   isLoadingQuestion = false;
   isLoadingAnswer = false;
+  isLoadingProgress = false;
   private socSub: Subscription;
   private socQuestionsSub: Subscription;
   private socAnswerSub: Subscription;
@@ -103,10 +104,12 @@ export class SocQuestionPage implements OnInit, OnDestroy {
             ]
           }).then(alertEl => alertEl.present());
         });
+      this.isLoadingProgress = true;
       this.socQuestionsSub = this.socQuestionsService
         .fetchQuestions(paramMap.get('socId'))
         .subscribe(socQuestions => {
           this.questions = socQuestions;
+          this.isLoadingProgress = false;;
         });
       this.isLoadingAnswer = true;
       this.socAnswerSub = this.socAnswersService

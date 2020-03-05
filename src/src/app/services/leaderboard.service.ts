@@ -31,7 +31,7 @@ export class LeaderboardService {
 
   compareScores(socId: string, name: string) {
     this.fetchLeaderboard(socId).subscribe(leaderboard => {
-      this.oldRecord = leaderboard.find(x => x.name = name);
+      this.oldRecord = leaderboard[leaderboard.findIndex(x => x.name = name)];
       console.log('oldRecord');
       console.log(this.oldRecord);
     });
@@ -44,7 +44,7 @@ export class LeaderboardService {
     this.authService.currUser.subscribe(user => {
       if (user) {
         name = user.fname + ' ' + user.lname;
-        uid = user.userId;
+        uid = user.id;
       }
     });
     const newLeaderboard = new Leaderboard (
@@ -54,29 +54,58 @@ export class LeaderboardService {
       new Date()
     );
     if (this.oldRecord === undefined) {
-      console.log('doesnt exist pls add');
+      return this.http
+        .put<{name: string}>(`https://fyp-wnolan.firebaseio.com/leaderboard/${socId}/${uid}.json`, {
+          ...newLeaderboard,
+          id: null,
+        })
+        .pipe(
+          switchMap(resData => {
+            generateId = resData.name;
+            return this.leaderboard;
+          }),
+          take(1),
+          tap(leaderboard => {
+            newLeaderboard.id = generateId;
+            this._leaderboard.next(leaderboard.concat(newLeaderboard));
+          })
+        );
     } else if (this.oldRecord.score < score && this.oldRecord) {
-      console.log('exists and new score better');
+      return this.http
+        .put<{name: string}>(`https://fyp-wnolan.firebaseio.com/leaderboard/${socId}/${uid}.json`, {
+          ...newLeaderboard,
+          id: null,
+        })
+        .pipe(
+          switchMap(resData => {
+            generateId = resData.name;
+            return this.leaderboard;
+          }),
+          take(1),
+          tap(leaderboard => {
+            newLeaderboard.id = generateId;
+            this._leaderboard.next(leaderboard.concat(newLeaderboard));
+          })
+        );
     } else {
-      console.log('exists but old score better');
+      return this.http
+        .put<{name: string}>(`https://fyp-wnolan.firebaseio.com/leaderboard/${socId}/${uid}.json`, {
+          ...this.oldRecord,
+          id: null,
+        })
+        .pipe(
+          switchMap(resData => {
+            generateId = resData.name;
+            return this.leaderboard;
+          }),
+          take(1),
+          tap(leaderboard => {
+            newLeaderboard.id = generateId;
+            this._leaderboard.next(leaderboard.concat(newLeaderboard));
+          })
+        );
     }
     console.log('adding now');
-    return this.http
-      .put<{name: string}>(`https://fyp-wnolan.firebaseio.com/leaderboard/${socId}/${uid}.json`, {
-        ...newLeaderboard,
-        id: null,
-      })
-      .pipe(
-        switchMap(resData => {
-          generateId = resData.name;
-          return this.leaderboard;
-        }),
-        take(1),
-        tap(leaderboard => {
-          newLeaderboard.id = generateId;
-          this._leaderboard.next(leaderboard.concat(newLeaderboard));
-        })
-      );
   }
 
   fetchLeaderboard(socId: string) {

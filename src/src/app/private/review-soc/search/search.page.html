@@ -12,7 +12,7 @@
   <ion-list>
     <ion-item 
       *ngFor = "let item of listUsers"
-      [routerLink]="['/', 'review-soc', item.userId]"
+      [routerLink]="['/', 'review-soc', item.id]"
       detail
     >
       <ion-label>{{ item.fname }} {{ item.lname }}</ion-label>

@@ -35,7 +35,6 @@ export class SocResultPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log('ngOnInit');
     this.route.paramMap.subscribe(paramMap => {
       if (!paramMap.has('socId')) {
         this.navCtrl.navigateBack('view-soc');

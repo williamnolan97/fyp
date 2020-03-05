@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="review-soc"></ion-back-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Results</ion-title>
   </ion-toolbar>
@@ -11,7 +11,7 @@
   <div *ngIf="isLoading" class="ion-text-center">
     <ion-spinner color="primary"></ion-spinner>
   </div>  
-  <ion-grid *ngIf="!isLoading && results.length > 0">
+  <ion-grid *ngIf="!isLoading && !isLoadingResult && !isLoadingSoc && results.length > 0">
     <ion-row class="border">
       <ion-col class="heading">
         Date

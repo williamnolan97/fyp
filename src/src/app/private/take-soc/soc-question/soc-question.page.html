@@ -8,7 +8,7 @@
   <div *ngIf="isLoadingQuestion" class="ion-text-center">
     <ion-spinner color="primary"></ion-spinner>
   </div>  
-  <ion-grid *ngIf="!isLoading && !isLoadingQuestion" class="ion-text-center">
+  <ion-grid *ngIf="!isLoadingProgress" class="ion-text-center">
     <progress id="progressBar" max="{{ questions.length }}" value="{{ progress }}"></progress>
   </ion-grid>
   <ion-grid *ngIf="!isLoadingQuestion" class="ion-text-center">

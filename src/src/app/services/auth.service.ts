@@ -22,7 +22,6 @@ interface UserDataInterface {
   fname: string;
   lname: string;
   fullName: string;
-  userId: string;
   socs: string[];
 }
 
@@ -79,19 +78,13 @@ export class AuthService {
         const users = [];
         for (const key in resData) {
           if (resData.hasOwnProperty(key)) {
-            for (const key2 in resData[key]) {
-              if (resData[key].hasOwnProperty(key2)) {
-                users.push(new UserData(
-                  key2,
-                  resData[key][key2].email,
-                  resData[key][key2].fname,
-                  resData[key][key2].lname,
-                  resData[key][key2].userId,
-                  resData[key][key2].socs
-                )
-                );
-              }
-            }
+            users.push(new UserData(
+              key,
+              resData[key].email,
+              resData[key].fname,
+              resData[key].lname,
+              resData[key].socs
+            ));
           }
         }
         users.sort((a, b) => {
@@ -113,18 +106,13 @@ export class AuthService {
     )
     .pipe(
       map(resData => {
-        for (const key in resData) {
-          if (resData.hasOwnProperty(key)) {
-            return new UserData(
-              key,
-              resData[key].email,
-              resData[key].fname,
-              resData[key].lname,
-              resData[key].userId,
-              resData[key].socs
-            );
-          }
-        }
+          return new UserData(
+            id,
+            resData.email,
+            resData.fname,
+            resData.lname,
+            resData.socs
+          );
       })
     );
   }
@@ -144,11 +132,10 @@ export class AuthService {
       email,
       fname,
       lname,
-      userId,
       []
     );
     return this.http
-      .post(`https://fyp-wnolan.firebaseio.com/user/${userId}.json`, {
+      .put(`https://fyp-wnolan.firebaseio.com/user/${userId}.json`, {
         ...newUser,
         id: null
       })
@@ -170,33 +157,20 @@ export class AuthService {
 
   updateCurrUser(id: string) {
     return this.http
-      .get<{[key: string]: UserData}>(
+      .get<UserDataInterface>(
         `https://fyp-wnolan.firebaseio.com/user/${id}.json`
       )
-      .pipe(map(resData => {
-        // console.log(resData);
-        const user = [];
-        for (const key in resData) {
-          if (resData.hasOwnProperty(key)) {
-            // console.log(key);
-            // console.log(resData[key].id);
-            // console.log(resData[key].socs);
-            user.push(new UserData(
-              key,
-              resData[key].email,
-              resData[key].fname,
-              resData[key].lname,
-              resData[key].userId,
-              resData[key].socs
-            ));
-          }
-        }
-        return user;
-      }),
-      tap(user => {
-        this._currUser.next(user[0]);
-      })
-    );
+      .pipe(
+        map(userData => {
+          this._currUser.next(new UserData(
+            id,
+            userData.email,
+            userData.fname,
+            userData.lname,
+            userData.socs
+          ));
+        })
+      );
   }
 
   logout() {

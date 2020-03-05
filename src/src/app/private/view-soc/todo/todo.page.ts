@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Soc } from 'src/app/models/soc.model';
 import { Subscription } from 'rxjs';
 import { SocsService } from 'src/app/services/socs.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserData } from 'src/app/models/userData.model';
 
 @Component({
   selector: 'app-todo',
@@ -13,8 +15,11 @@ export class TodoPage implements OnInit, OnDestroy {
   listedLoadedPlaces: Soc[];
   private socsSub: Subscription;
   isLoading = false;
+  currUser: UserData;
 
-  constructor(private socsService: SocsService) { }
+  constructor(
+    private socsService: SocsService,
+  ) { }
 
   ngOnInit() {
     this.socsSub = this.socsService.socs.subscribe(socs => {

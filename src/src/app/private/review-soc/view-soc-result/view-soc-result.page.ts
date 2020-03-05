@@ -14,6 +14,8 @@ import { ResultsService } from 'src/app/services/results.service';
 })
 export class ViewSocResultPage implements OnInit, OnDestroy {
   isLoading = false;
+  isLoadingResult = false;
+  isLoadingSoc = false;
   soc: Soc;
   results: Result[];
   percents: number[];
@@ -30,24 +32,28 @@ export class ViewSocResultPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.isLoadingResult = true;
+    this.isLoadingSoc = true;
     this.route.paramMap.subscribe(paramMap => {
       if (!paramMap.get('socId')) {
-        this.navCtrl.navigateBack('/socs/review');
+        this.navCtrl.navigateBack('/review-soc');
         return;
       }
       if (!paramMap.get('userId')) {
-        this.navCtrl.navigateBack('/socs/review');
+        this.navCtrl.navigateBack('/review-soc');
         return;
       }
       this.socId = paramMap.get('socId');
       this.userId = paramMap.get('userId');
       this.socSub = this.socService.getSoc(this.socId).subscribe(soc => {
         this.soc = soc;
+        this.isLoadingSoc = false;
       });
       this.resultsSub = this.resultsService
         .results
         .subscribe(results => {
           this.results = results;
+          this.isLoadingResult = false;
         });
     });
 
