@@ -10,10 +10,10 @@ interface SocData {
   description: string;
   questions: SocQuestion[];
   name: string;
+  percent: number;
 }
 
 interface SocQuestionData {
-  socId: string;
   answers: SocAnswer[];
   name: string;
 }
@@ -54,6 +54,7 @@ export class ReviewDetailService {
               key,
               resData[key].name,
               resData[key].description,
+              resData[key].percent,
               []
             )
             );
@@ -99,7 +100,6 @@ export class ReviewDetailService {
           if (questionIds.indexOf(key) !== -1) {
             questions.push(new SocQuestion(
               key,
-              resData[key].socId,
               resData[key].name,
               resData[key].answers
             )

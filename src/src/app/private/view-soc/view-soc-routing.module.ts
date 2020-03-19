@@ -29,10 +29,6 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'add-new-soc',
-    loadChildren: () => import('./add-new-soc/add-new-soc.module').then( m => m.AddNewSocPageModule)
-  },
-  {
     path: 'cud-soc',
     loadChildren: () => import('./cud-soc/cud-soc.module').then( m => m.CudSocPageModule)
   },

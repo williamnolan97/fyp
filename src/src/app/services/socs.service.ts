@@ -76,31 +76,32 @@ export class SocsService {
     );
   }
 
-  // addSoc(name: string, description: string, questions: SocQuestion[]) {
-  //   let generatedId: string;
-  //   const newSoc = new Soc(
-  //     Math.random().toString(),
-  //     name,
-  //     description,
-  //     questions
-  //   );
-  //   return this.http
-  //     .post<{name: string}>('https://fyp-wnolan.firebaseio.com/soc.json', {
-  //       ...newSoc,
-  //       id: null
-  //     })
-  //     .pipe(
-  //       switchMap(resData => {
-  //         generatedId = resData.name;
-  //         return this.socs;
-  //       }),
-  //       take(1),
-  //       tap(socs => {
-  //         newSoc.id = generatedId;
-  //         this._socs.next(socs.concat(newSoc));
-  //       })
-  //     );
-  // }
+  addSoc(name: string, description: string, questions: SocQuestion[]) {
+    let generatedId: string;
+    const newSoc = new Soc(
+      Math.random().toString(),
+      name,
+      description,
+      0,
+      questions
+    );
+    return this.http
+      .post<{name: string}>('https://fyp-wnolan.firebaseio.com/soc.json', {
+        ...newSoc,
+        id: null
+      })
+      .pipe(
+        switchMap(resData => {
+          generatedId = resData.name;
+          return this.socs;
+        }),
+        take(1),
+        tap(socs => {
+          newSoc.id = generatedId;
+          this._socs.next(socs.concat(newSoc));
+        })
+      );
+  }
 
   createSoc(name: string, description: string, percent: number, questions: any[]) {
     let generatedId: string;
