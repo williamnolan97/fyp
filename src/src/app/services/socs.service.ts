@@ -6,11 +6,13 @@ import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { SocQuestion } from 'src/app/models/soc-question.model';
+import { SocQuestionService } from './soc-question.service';
 
 interface SocData {
   description: string;
   questions: SocQuestion[];
   name: string;
+  percent: number;
 }
 
 @Injectable({
@@ -21,7 +23,8 @@ export class SocsService {
 
   constructor(
     private authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private socQuestionServive: SocQuestionService
   ) { }
 
   get socs() {
@@ -41,6 +44,7 @@ export class SocsService {
               key,
               resData[key].name,
               resData[key].description,
+              resData[key].percent,
               []
             )
             );
@@ -65,19 +69,47 @@ export class SocsService {
           id,
           socData.name,
           socData.description,
+          socData.percent,
           socData.questions
         );
       })
     );
   }
 
-  addSoc(name: string, description: string, questions: SocQuestion[]) {
+  // addSoc(name: string, description: string, questions: SocQuestion[]) {
+  //   let generatedId: string;
+  //   const newSoc = new Soc(
+  //     Math.random().toString(),
+  //     name,
+  //     description,
+  //     questions
+  //   );
+  //   return this.http
+  //     .post<{name: string}>('https://fyp-wnolan.firebaseio.com/soc.json', {
+  //       ...newSoc,
+  //       id: null
+  //     })
+  //     .pipe(
+  //       switchMap(resData => {
+  //         generatedId = resData.name;
+  //         return this.socs;
+  //       }),
+  //       take(1),
+  //       tap(socs => {
+  //         newSoc.id = generatedId;
+  //         this._socs.next(socs.concat(newSoc));
+  //       })
+  //     );
+  // }
+
+  createSoc(name: string, description: string, percent: number, questions: any[]) {
     let generatedId: string;
     const newSoc = new Soc(
       Math.random().toString(),
       name,
       description,
-      questions
+      percent,
+      []
     );
     return this.http
       .post<{name: string}>('https://fyp-wnolan.firebaseio.com/soc.json', {
@@ -87,6 +119,12 @@ export class SocsService {
       .pipe(
         switchMap(resData => {
           generatedId = resData.name;
+          questions.forEach(question => {
+              this.socQuestionServive
+                .createQuestion(generatedId, question.questionName, question.answers)
+                .subscribe();
+            }
+          );
           return this.socs;
         }),
         take(1),

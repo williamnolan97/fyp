@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { switchMap, take, tap, map } from 'rxjs/operators';
 
 interface SocAnswerData {
-  questionId: string;
   name: string;
   isAnswer: boolean;
 }
@@ -30,7 +29,6 @@ export class SocAnswerService {
     let generatedId: string;
     const newSocAnswer = new SocAnswer(
       Math.random().toString(),
-      questionId,
       name,
       isAnswer
     );
@@ -63,7 +61,6 @@ export class SocAnswerService {
           if (resData.hasOwnProperty(key)) {
             socQuestions.push(new SocAnswer(
               key,
-              resData[key].questionId,
               resData[key].name,
               resData[key].isAnswer
             )
@@ -76,5 +73,29 @@ export class SocAnswerService {
         this._socAnswers.next(socAnswers);
       })
     );
+  }
+  createAnswer(socId: string, questionId: string, name: string, isAnswer: boolean) {
+    let generatedId: string;
+    const newSocAnswer = new SocAnswer(
+      Math.random().toString(),
+      name,
+      isAnswer
+    );
+    return this.http
+      .post<{name: string}>(`https://fyp-wnolan.firebaseio.com/soc/${socId}/questions/${questionId}/answers.json`, {
+        ...newSocAnswer,
+        id: null
+      })
+      .pipe(
+        switchMap(resData => {
+          generatedId = resData.name;
+          return this.socAnswers;
+        }),
+        take(1),
+        tap(socAnswers => {
+          newSocAnswer.id = generatedId;
+          this._socAnswers.next(socAnswers.concat(newSocAnswer));
+        })
+      );
   }
 }

@@ -5,6 +5,7 @@ export class Soc {
       public id: string,
       public name: string,
       public description: string,
+      public percent: number,
       public questions: SocQuestion[]
     ) {}
 }

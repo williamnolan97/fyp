@@ -33,6 +33,10 @@ const routes: Routes = [
     loadChildren: () => import('./add-new-soc/add-new-soc.module').then( m => m.AddNewSocPageModule)
   },
   {
+    path: 'cud-soc',
+    loadChildren: () => import('./cud-soc/cud-soc.module').then( m => m.CudSocPageModule)
+  },
+  {
     path: ':socId',
     loadChildren: () => import('./view-soc-detail/view-soc-detail.module').then( m => m.ViewSocDetailPageModule)
   },

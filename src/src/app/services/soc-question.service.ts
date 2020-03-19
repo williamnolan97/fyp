@@ -5,9 +5,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { switchMap, take, tap, map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
+import { SocAnswerService } from './soc-answer.service';
 
 interface SocQuestionData {
-  socId: string;
   answers: SocAnswer[];
   name: string;
 }
@@ -20,7 +20,8 @@ export class SocQuestionService {
 
   constructor(
     private authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private socAnswersService: SocAnswerService
   ) { }
 
   get socQuestions() {
@@ -38,7 +39,6 @@ export class SocQuestionService {
           if (resData.hasOwnProperty(key)) {
             socQuestions.push(new SocQuestion(
               key,
-              resData[key].socId,
               resData[key].name,
               resData[key].answers
             )
@@ -62,7 +62,6 @@ export class SocQuestionService {
       map(questionData => {
         return new SocQuestion(
           questionId,
-          questionData.socId,
           questionData.name,
           questionData.answers
         );
@@ -74,7 +73,6 @@ export class SocQuestionService {
     let generatedId: string;
     const newSocQuestion = new SocQuestion(
       Math.random().toString(),
-      socId,
       name,
       []
     );
@@ -86,6 +84,43 @@ export class SocQuestionService {
       .pipe(
         switchMap(resData => {
           generatedId = resData.name;
+          return this.socQuestions;
+        }),
+        take(1),
+        tap(socQuestions => {
+          newSocQuestion.id = generatedId;
+          this._socQuestions.next(socQuestions.concat(newSocQuestion));
+        })
+      );
+  }
+
+  createQuestion(socId: string, name: string, answers: any[]) {
+    console.log(name);
+    let generatedId: string;
+    let isAnswer: boolean;
+    const newSocQuestion = new SocQuestion(
+      Math.random().toString(),
+      name,
+      []
+    );
+    return this.http
+      .post<{name: string}>(`https://fyp-wnolan.firebaseio.com/soc/${socId}/questions.json`, {
+        ...newSocQuestion,
+        id: null
+      })
+      .pipe(
+        switchMap(resData => {
+          generatedId = resData.name;
+          answers.forEach(answer => {
+            if (answers.indexOf(answer) === 0) {
+              isAnswer = true;
+            } else {
+              isAnswer = false;
+            }
+            this.socAnswersService
+                .createAnswer(socId, generatedId, answer.answerName, isAnswer)
+                .subscribe();
+          });
           return this.socQuestions;
         }),
         take(1),

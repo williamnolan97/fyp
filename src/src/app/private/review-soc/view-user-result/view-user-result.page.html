@@ -12,13 +12,13 @@
   <div *ngIf="isLoading" class="ion-text-center">
     <ion-spinner color="primary"></ion-spinner>
   </div>  
-  <p *ngIf="!isLoading && loadedSocs.length <= 0" class="ion-text-center">
+  <p *ngIf="!isLoading && !isLoadingSoc && loadedSocs.length <= 0" class="ion-text-center">
     User has no SOC results.
   </p>
   <p *ngIf="!isLoading && loadedSocs.length > 0 && listSocs.length <= 0" class="ion-text-center">
     SOC not found.
   </p>
-  <ion-list *ngIf="!isLoading && listSocs.length > 0">
+  <ion-list *ngIf="!isLoading && !isLoadingSoc && listSocs.length > 0">
     <ion-item 
       *ngFor="let soc of listSocs"
       [routerLink]="['/', 'review-soc', userId, soc.id]"

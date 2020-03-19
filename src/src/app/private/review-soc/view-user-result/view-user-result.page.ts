@@ -20,6 +20,7 @@ export class ViewUserResultPage implements OnInit, OnDestroy {
   private userSub: Subscription;
   private reviewDetailSub: Subscription;
   isLoading = false;
+  isLoadingSoc = false;
   isItemAvailable = false;
 
   constructor(
@@ -32,6 +33,12 @@ export class ViewUserResultPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.isLoadingSoc = true;
+    this.reviewDetailSub = this.reviewDetailService.socs.subscribe(socs => {
+      this.loadedSocs = socs;
+      this.listSocs = socs;
+      this.isLoadingSoc = false;
+    });
     this.route.paramMap.subscribe(paramMap => {
       if (!paramMap.has('userId')) {
         this.navCtrl.navigateBack('/socs/review');
@@ -58,10 +65,6 @@ export class ViewUserResultPage implements OnInit, OnDestroy {
             ]
           }).then(alertEl => alertEl.present());
         });
-    });
-    this.reviewDetailSub = this.reviewDetailService.socs.subscribe(socs => {
-      this.loadedSocs = socs;
-      this.listSocs = socs;
     });
   }
 

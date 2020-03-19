@@ -62,9 +62,7 @@ export class ViewSocDetailPage implements OnInit, OnDestroy {
         });
     });
     this.socQuestionSub = this.socQuestionsService.socQuestions.subscribe(socQuestions => {
-      this.loadedSocQuestions = socQuestions.filter(item =>
-        item.socId === this.socId
-      );
+      this.loadedSocQuestions = socQuestions;
     });
   }
 
