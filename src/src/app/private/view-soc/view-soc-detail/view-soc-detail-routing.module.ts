@@ -8,6 +8,10 @@ const routes: Routes = [
     path: '',
     component: ViewSocDetailPage
   },
+  {
+    path: 'edit-delete-soc',
+    loadChildren: () => import('./edit-delete-soc/edit-delete-soc.module').then( m => m.EditDeleteSocPageModule)
+  },
 ];
 
 @NgModule({

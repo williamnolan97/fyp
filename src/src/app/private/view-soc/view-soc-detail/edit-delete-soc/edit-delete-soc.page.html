@@ -3,9 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="view-soc"></ion-back-button>
     </ion-buttons>
-    <ion-title>Create SOC</ion-title>
-    <ion-buttons slot="primary">
-      <ion-button (click)="onCreateSoc()" [disabled]="!form.valid">
+    <ion-title>Edit SOC</ion-title>
+    <ion-buttons *ngIf="!isLoading" slot="primary">
+      <ion-button [disabled]="!form.valid">
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -13,7 +13,7 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="form">
+  <form *ngIf="!isLoading" [formGroup]="form">
     <!-- Value : {{ form.value | json}} -->
     <ion-grid>
       <ion-row> 
@@ -25,6 +25,7 @@
               autocomplete 
               autocorrect 
               formControlName="name"
+              readonly = "{{ !edit }}"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -38,6 +39,7 @@
               autocomplete 
               autocorrect 
               formControlName="description"
+              readonly = "{{ !edit }}"
             ></ion-input>
           </ion-item>        
         </ion-col>                
@@ -51,6 +53,7 @@
               autocomplete 
               autocorrect 
               formControlName="percentage"
+              readonly = "{{ !edit }}"
             ></ion-input>
           </ion-item>        
         </ion-col>
@@ -60,6 +63,7 @@
               <div formGroupName="{{iQ}}">
                 <ion-row>
                   <ion-col size-sm="6" offset-sm="3">
+                    <hr>
                     <ion-item>
                       <ion-label position="floating">Question</ion-label>
                       <ion-input 
@@ -67,11 +71,12 @@
                         autocomplete 
                         autocorrect 
                         formControlName="questionName"
+                        readonly = "{{ !edit }}"
                       ></ion-input>
                     </ion-item>
                   </ion-col>
                 </ion-row>
-                <ion-row>
+                <ion-row *ngIf="edit">
                   <ion-col size-sm="3" offset-sm="3">
                     <ion-button color="primary" size="full" (click)="addAnswer(iQ)">Add Answer</ion-button>
                   </ion-col>
@@ -91,11 +96,12 @@
                                 autocomplete 
                                 autocorrect 
                                 formControlName="answerName"
+                                readonly = "{{ !edit }}"
                               ></ion-input>
                             </ion-item>
                           </ion-col>                          
                         </ion-row>  
-                        <ion-row>
+                        <ion-row *ngIf="edit">
                           <ion-col size-sm="6" offset-sm="3">
                             <ion-button color="danger" size="full" (click)="deleteAnswer(iA, iQ)">Delete Answer</ion-button>
                           </ion-col>
@@ -106,15 +112,11 @@
               </div>
             </div>
       </div>
+      <ion-row *ngIf="edit"> 
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button color="primary" size="full" (click)="addQuestion()">Add Question</ion-button>
+        </ion-col>
+      </ion-row>
     </ion-grid>
   </form>
 </ion-content>
-<ion-footer>
-  <ion-grid>
-    <ion-row>
-      <ion-col size-sm="6" offset-sm="3">
-        <ion-button color="primary" size="full" (click)="addQuestion()">Add Question</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-footer>

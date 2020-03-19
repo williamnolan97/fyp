@@ -12,8 +12,6 @@ import { Router } from '@angular/router';
 export class CudSocPage implements OnInit {
   form: FormGroup;
   errorMsg: string;
-  // tslint:disable-next-line: ban-types
-  newOb: Object;
 
   constructor(
     private fb: FormBuilder,
@@ -35,7 +33,7 @@ export class CudSocPage implements OnInit {
       }),
       percentage: new FormControl(null, {
         updateOn: 'blur',
-        validators: [Validators.required, Validators.maxLength(100)]
+        validators: [Validators.required]
       }),
       questions: this.fb.array([
         this.initQuestion()
@@ -74,6 +72,7 @@ export class CudSocPage implements OnInit {
 
   addAnswer(iQ) {
     const control = (this.form.controls.questions as FormArray).at(iQ).get('answers') as FormArray;
+    console.log(control);
     if (control.length < 4) {
       control.push(this.initAnswer());
     } else {
