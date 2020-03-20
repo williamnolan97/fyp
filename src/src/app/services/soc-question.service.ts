@@ -69,31 +69,6 @@ export class SocQuestionService {
     );
   }
 
-  addSocQuestion(socId: string, name: string) {
-    let generatedId: string;
-    const newSocQuestion = new SocQuestion(
-      Math.random().toString(),
-      name,
-      []
-    );
-    return this.http
-      .post<{name: string}>(`https://fyp-wnolan.firebaseio.com/soc/${socId}/questions.json`, {
-        ...newSocQuestion,
-        id: null
-      })
-      .pipe(
-        switchMap(resData => {
-          generatedId = resData.name;
-          return this.socQuestions;
-        }),
-        take(1),
-        tap(socQuestions => {
-          newSocQuestion.id = generatedId;
-          this._socQuestions.next(socQuestions.concat(newSocQuestion));
-        })
-      );
-  }
-
   createQuestion(socId: string, name: string, answers: any[]) {
     console.log(name);
     let generatedId: string;
@@ -129,5 +104,60 @@ export class SocQuestionService {
           this._socQuestions.next(socQuestions.concat(newSocQuestion));
         })
       );
+  }
+
+  updateQuestion(socId: string, questionId: string, name: string, answers: any[]) {
+    console.log(name);
+    let generatedId: string;
+    let isAnswer: boolean;
+    const newSocQuestion = new SocQuestion(
+      Math.random().toString(),
+      name,
+      []
+    );
+    return this.http
+      .put<{name: string}>(`https://fyp-wnolan.firebaseio.com/soc/${socId}/questions/${questionId}.json`, {
+        ...newSocQuestion,
+        id: null
+      })
+      .pipe(
+        switchMap(resData => {
+          generatedId = resData.name;
+          answers.forEach(answer => {
+            if (answers.indexOf(answer) === 0) {
+              isAnswer = true;
+            } else {
+              isAnswer = false;
+            }
+            if (answer.answerId === null) {
+              this.socAnswersService
+              .createAnswer(socId, questionId, answer.answerName, isAnswer)
+              .subscribe();
+            } else {
+              this.socAnswersService
+                .updateAnswer(socId, questionId, answer.answerId, answer.answerName, isAnswer)
+                .subscribe();
+            }
+          });
+          return this.socQuestions;
+        }),
+        take(1),
+        tap(socQuestions => {
+          newSocQuestion.id = generatedId;
+          this._socQuestions.next(socQuestions.concat(newSocQuestion));
+        })
+      );
+  }
+
+  deleteQuestion(socId: string, questionId: string) {
+    return this.http.delete(`https://fyp-wnolan.firebaseio.com/soc/${socId}/questions/${questionId}.json`)
+      .pipe(switchMap(() => {
+        return this.socQuestions;
+      }),
+      take(1),
+      tap(questions => {
+        this._socQuestions.next(questions.filter(b => b.id !== questionId));
+        this.fetchQuestions(socId).subscribe();
+      }));
   }
 }

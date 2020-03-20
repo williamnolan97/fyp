@@ -76,33 +76,6 @@ export class SocsService {
     );
   }
 
-  addSoc(name: string, description: string, questions: SocQuestion[]) {
-    let generatedId: string;
-    const newSoc = new Soc(
-      Math.random().toString(),
-      name,
-      description,
-      0,
-      questions
-    );
-    return this.http
-      .post<{name: string}>('https://fyp-wnolan.firebaseio.com/soc.json', {
-        ...newSoc,
-        id: null
-      })
-      .pipe(
-        switchMap(resData => {
-          generatedId = resData.name;
-          return this.socs;
-        }),
-        take(1),
-        tap(socs => {
-          newSoc.id = generatedId;
-          this._socs.next(socs.concat(newSoc));
-        })
-      );
-  }
-
   createSoc(name: string, description: string, percent: number, questions: any[]) {
     let generatedId: string;
     const newSoc = new Soc(
@@ -132,6 +105,46 @@ export class SocsService {
         tap(socs => {
           newSoc.id = generatedId;
           this._socs.next(socs.concat(newSoc));
+        })
+      );
+  }
+
+  updateSoc(socId: string, name: string, description: string, percent: number, questions: any[]) {
+    let generatedId: string;
+    const newSoc = new Soc(
+      Math.random().toString(),
+      name,
+      description,
+      percent,
+      []
+    );
+    return this.http
+      .put<{name: string}>(`https://fyp-wnolan.firebaseio.com/soc/${socId}.json`, {
+        ...newSoc,
+        id: null
+      })
+      .pipe(
+        switchMap(resData => {
+          generatedId = resData.name;
+          questions.forEach(question => {
+              if (question.questionId === null) {
+                this.socQuestionServive
+                .createQuestion(socId, question.questionName, question.answers)
+                .subscribe();
+              } else {
+                this.socQuestionServive
+                .updateQuestion(socId, question.questionId, question.questionName, question.answers)
+                .subscribe();
+              }
+            }
+          );
+          return this.socs;
+        }),
+        take(1),
+        tap(socs => {
+          newSoc.id = generatedId;
+          this._socs.next(socs.concat(newSoc));
+          this.fetchSocs().subscribe();
         })
       );
   }

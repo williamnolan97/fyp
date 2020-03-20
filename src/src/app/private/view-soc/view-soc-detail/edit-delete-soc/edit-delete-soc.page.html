@@ -4,9 +4,14 @@
       <ion-back-button defaultHref="view-soc"></ion-back-button>
     </ion-buttons>
     <ion-title>Edit SOC</ion-title>
-    <ion-buttons *ngIf="!isLoading" slot="primary">
-      <ion-button [disabled]="!form.valid">
+    <ion-buttons *ngIf="!isLoading && edit" slot="secondary">
+      <ion-button (click)="saveChangesAlert()" [disabled]="!form.valid">
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons *ngIf="!isLoading" slot="primary">      
+      <ion-button (click)="toggleEdit()" [disabled]="!form.valid">
+        <ion-icon name="create" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -81,7 +86,7 @@
                     <ion-button color="primary" size="full" (click)="addAnswer(iQ)">Add Answer</ion-button>
                   </ion-col>
                   <ion-col size-sm="3">
-                    <ion-button color="danger" size="full" (click)="deleteQuestion(iQ)">Delete Question</ion-button>
+                    <ion-button color="danger" size="full" (click)="deleteQuestionAlert(iQ)">Delete Question</ion-button>
                   </ion-col>
                 </ion-row>             
                 <div formArrayName="answers">
@@ -103,7 +108,7 @@
                         </ion-row>  
                         <ion-row *ngIf="edit">
                           <ion-col size-sm="6" offset-sm="3">
-                            <ion-button color="danger" size="full" (click)="deleteAnswer(iA, iQ)">Delete Answer</ion-button>
+                            <ion-button color="danger" size="full" (click)="deleteAnswerAlert(iA, iQ)">Delete Answer</ion-button>
                           </ion-col>
                         </ion-row>  
                       </div>                      
