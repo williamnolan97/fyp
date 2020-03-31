@@ -4,11 +4,19 @@ import { Result } from '../models/result.model';
 import { HttpClient } from '@angular/common/http';
 import { switchMap, take, tap, map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { Feedback } from '../models/feedback.model';
 
 interface ResultData {
   result: number;
   total: number;
   incorrect: string[];
+  feedback: Feedback[];
+  date: Date;
+}
+
+interface FeedbackData {
+  feedback: string;
+  senderName: string;
   date: Date;
 }
 
@@ -17,6 +25,7 @@ interface ResultData {
 })
 export class ResultsService {
 private _results = new BehaviorSubject<Result[]>([]);
+private _feedback = new BehaviorSubject<Feedback[]>([]);
 
   constructor(
     private http: HttpClient,
@@ -25,6 +34,10 @@ private _results = new BehaviorSubject<Result[]>([]);
 
   get results() {
     return this._results.asObservable();
+  }
+
+  get feedback() {
+    return this._feedback.asObservable();
   }
 
   fetchResults(userId: string, socId: string) {
@@ -41,6 +54,7 @@ private _results = new BehaviorSubject<Result[]>([]);
               resData[key].result,
               resData[key].total,
               resData[key].incorrect,
+              resData[key].feedback,
               resData[key].date
             ));
           }
@@ -55,6 +69,7 @@ private _results = new BehaviorSubject<Result[]>([]);
       })
       );
   }
+
   addResult(userId: string, socId: string, result: number, total: number, incorrect: string[]) {
     let generateId: string;
     const newResult = new Result(
@@ -62,6 +77,7 @@ private _results = new BehaviorSubject<Result[]>([]);
       result,
       total,
       incorrect,
+      [],
       new Date()
     );
     return this.http
@@ -94,8 +110,35 @@ private _results = new BehaviorSubject<Result[]>([]);
           resultData.result,
           resultData.total,
           resultData.incorrect,
+          resultData.feedback,
           resultData.date
         );
+      })
+    );
+  }
+
+  addFeedback(feedback: string, senderName: string, userId: string, socId: string, resultId: string) {
+    let generateId: string;
+    const newFeedback = new Feedback(
+      Math.random().toString(),
+      feedback,
+      senderName,
+      new Date()
+    );
+    return this.http
+    .post<{name: string}>(`https://fyp-wnolan.firebaseio.com/result/${userId}/${socId}/${resultId}/feedback.json`, {
+      ...newFeedback,
+      id: null
+    })
+    .pipe(
+      switchMap(resData => {
+        generateId = resData.name;
+        return this.feedback;
+      }),
+      take(1),
+      tap(feedback => {
+        newFeedback.id = generateId;
+        this._feedback.next(feedback.concat(newFeedback));
       })
     );
   }

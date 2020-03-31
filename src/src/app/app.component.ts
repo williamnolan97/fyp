@@ -12,6 +12,10 @@ import { Router } from '@angular/router';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  userId: string;
+  url: string;
+  isLoading = false;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -23,6 +27,12 @@ export class AppComponent {
   }
 
   initializeApp() {
+    this.isLoading = true;
+    this.authService.userId.subscribe(userId => {
+      this.userId = userId;
+      this.url = '/my-results/' + userId;
+      this.isLoading = false;
+    });
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();

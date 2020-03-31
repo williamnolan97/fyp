@@ -24,6 +24,14 @@ const routes: Routes = [
     path: 'leaderboard',
     loadChildren: () => import('./private/leaderboard/leaderboard.module').then( m => m.LeaderboardPageModule)
   },
+  {
+    path: 'my-results/:userId',
+    loadChildren: () => import('./private/my-results/my-results.module').then( m => m.MyResultsPageModule)
+  },
+  {
+    path: 'review-progression',
+    loadChildren: () => import('./private/review-progression/review-progression.module').then( m => m.ReviewProgressionPageModule)
+  },
 ];
 
 @NgModule({

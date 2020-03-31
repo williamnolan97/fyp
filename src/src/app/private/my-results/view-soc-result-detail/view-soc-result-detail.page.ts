@@ -7,11 +7,8 @@ import { ResultsService } from 'src/app/services/results.service';
 import { ReviewDetailService } from 'src/app/services/review-detail.service';
 import { SocQuestionService } from 'src/app/services/soc-question.service';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, LoadingController, AlertController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { Chart } from 'chart.js';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
-import { Feedback } from 'src/app/models/feedback.model';
 
 @Component({
   selector: 'app-view-soc-result-detail',
@@ -31,10 +28,6 @@ export class ViewSocResultDetailPage implements OnInit, OnDestroy {
   isLoading = false;
   private resultSub: Subscription;
   private reviewDetailSub: Subscription;
-  feedbackLoading = false;
-  form: FormGroup;
-  senderName: string;
-  feedback: Feedback[];
 
   constructor(
     public resultService: ResultsService,
@@ -42,21 +35,9 @@ export class ViewSocResultDetailPage implements OnInit, OnDestroy {
     public socQuestionService: SocQuestionService,
     public route: ActivatedRoute,
     private navCtrl: NavController,
-    private fb: FormBuilder,
-    private loadingCtrl: LoadingController,
-    private authService: AuthService,
   ) { }
 
   ngOnInit() {
-    this.authService.currUser.subscribe(user => {
-      this.senderName	= user.fname + ' ' + user.lname;
-    });
-    this.form = this.fb.group({
-      feedback: new FormControl(null, {
-        updateOn: 'blur',
-        validators: [Validators.required]
-      }),
-    });
     this.isLoading = true;
     this.route.paramMap.subscribe(paramMap => {
       if (!paramMap.get('socId')) {
@@ -74,33 +55,15 @@ export class ViewSocResultDetailPage implements OnInit, OnDestroy {
       this.resultId = paramMap.get('resultId');
       this.socId = paramMap.get('socId');
       this.userId = paramMap.get('userId');
-      this.getResults();
+      this.resultSub = this.resultService.getResult(this.resultId, this.socId, this.userId).subscribe(result => {
+        this.result = result;
+        this.setDoughnut();
+        this.getQuestions();
+        this.isLoading = false;
+      });
     });
   }
 
-  getResults() {
-    this.resultSub = this.resultService.getResult(this.resultId, this.socId, this.userId).subscribe(result => {
-      this.result = result;
-      console.log(this.result.feedback);
-      const feedback = [];
-      for (const key in this.result.feedback) {
-        if (this.result.feedback.hasOwnProperty(key)) {
-          feedback.push(new Feedback(
-            key,
-            this.result.feedback[key].feedback,
-            this.result.feedback[key].senderName,
-            this.result.feedback[key].date,
-          ));
-        }
-      }
-      this.feedback = feedback.sort((a, b) => {
-        return b.date.localeCompare(a.date) || 0;
-      });
-      this.setDoughnut();
-      this.getQuestions();
-      this.isLoading = false;
-    });
-  }
   getQuestions() {
     if (this.result.incorrect !== undefined) {
       this.reviewDetailSub = this.reviewDetailService.getQuestions(this.result.incorrect, this.socId).subscribe(questions => {
@@ -127,33 +90,6 @@ export class ViewSocResultDetailPage implements OnInit, OnDestroy {
         rotation: 1 * Math.PI,
         circumference: 1 * Math.PI,
       }
-    });
-  }
-
-  giveFeedback() {
-    this.feedbackLoading = true;
-  }
-
-  submitFeedback() {
-    if (!this.form.valid) {
-      return;
-    }
-    this.loadingCtrl.create({
-      message: 'Submitting Feedback...'
-    }).then(loadingEl => {
-      loadingEl.present();
-      this.resultService.addFeedback(
-        this.form.value.feedback,
-        this.senderName,
-        this.userId,
-        this.socId,
-        this.resultId,
-      ).subscribe(() => {
-        loadingEl.dismiss();
-        this.form.reset();
-        this.getResults();
-        this.feedbackLoading = false;
-      });
     });
   }
 

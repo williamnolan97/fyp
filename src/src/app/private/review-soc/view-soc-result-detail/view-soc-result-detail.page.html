@@ -19,9 +19,67 @@
     </ion-row>    
   </ion-grid>
   <ion-grid *ngIf="!isLoading">
-    {{ result.date | date: 'longDate'}}    
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3"> 
+        {{ result.date | date: 'longDate'}}    
+      </ion-col>
+    </ion-row> 
     <ion-row *ngFor="let question of socQuestions">
-      {{ question.name }}
+      <ion-col size-sm="6" offset-sm="3"> 
+        {{ question.name }}
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let item of feedback">
+      <ion-col size-sm="6" offset-sm="3">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ item.senderName }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <time>{{ item.date | date:'medium' }}</time>
+            <p>{{ item.feedback}}</p>
+          </ion-card-content>
+        </ion-card>
+        <!-- <div>
+          <div>
+            <h4>{{ item.userId }}</h4>
+            <time>{{ item.date | date:'medium' }}</time>
+            <p>{{ item.feedback}}</p>
+          </div>
+        </div>  -->
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
+<ion-footer>
+  <ion-grid>
+    <ion-row *ngIf="!feedbackLoading">
+      <ion-col size-sm="6" offset-sm="3">
+        <ion-button color="primary" (click)="giveFeedback()" size="full">Give Feedback</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="feedbackLoading">
+      <ion-col size-sm="6" offset-sm="3"> 
+        <form [formGroup]="form">
+          <ion-item>
+            <ion-label position="floating">Feedback</ion-label>
+            <ion-textarea
+              autocomplete 
+              autocorrect
+              rows="3"
+              formControlName="feedback"
+            ></ion-textarea>
+          </ion-item>
+        </form>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="feedbackLoading">
+      <ion-col size-sm="3" offset-sm="3">
+        <ion-button color="primary" (click)="submitFeedback()" [disabled]="!form.valid" size="full">Submit Feedback</ion-button>
+      </ion-col>
+      <ion-col size-sm="3">
+        <ion-button color="danger" (click)="submitFeedback()" size="full">Cancel</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

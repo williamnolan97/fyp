@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="my-results"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Review Result</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>   
+  <ion-grid>
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col><canvas #doughnutCanvas></canvas></ion-col>
+      <ion-col></ion-col>
+    </ion-row>    
+  </ion-grid>
+  <ion-grid *ngIf="!isLoading">
+    {{ result.date | date: 'longDate'}}    
+    <ion-row *ngFor="let question of socQuestions">
+      {{ question.name }}
+    </ion-row>
+  </ion-grid>
+</ion-content>
