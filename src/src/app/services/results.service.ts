@@ -142,4 +142,16 @@ private _feedback = new BehaviorSubject<Feedback[]>([]);
       })
     );
   }
+
+  getResultObject(userId: string) {
+    return this.http
+    .get(
+      `https://fyp-wnolan.firebaseio.com/result/${userId}.json`
+    )
+    .pipe(
+      map(resultData => {
+        return resultData;
+      })
+    );
+  }
 }
