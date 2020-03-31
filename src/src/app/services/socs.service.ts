@@ -148,4 +148,18 @@ export class SocsService {
         })
       );
   }
+
+  deleteSOC(socId: string) {
+    return this.http
+      .delete(`https://fyp-wnolan.firebaseio.com/soc/${socId}.json`)
+      .pipe(
+        switchMap(() => {
+          return this.socs;
+        }),
+        take(1),
+        tap(socs => {
+          this._socs.next(socs.filter(b => b.id !== socId));
+        })
+      );
+  }
 }

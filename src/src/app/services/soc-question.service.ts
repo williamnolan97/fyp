@@ -107,7 +107,6 @@ export class SocQuestionService {
   }
 
   updateQuestion(socId: string, questionId: string, name: string, answers: any[]) {
-    console.log(name);
     let generatedId: string;
     let isAnswer: boolean;
     const newSocQuestion = new SocQuestion(

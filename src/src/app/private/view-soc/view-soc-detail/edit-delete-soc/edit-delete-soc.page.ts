@@ -257,9 +257,7 @@ export class EditDeleteSocPage implements OnInit, OnDestroy {
   deleteAnswer(i, iQ) {
     const control = (this.form.controls.questions as FormArray).at(iQ).get('answers') as FormArray;
     const questionId = this.form.controls.questions.value[iQ].questionId;
-    console.log(questionId);
     const answerId = control.value[i].answerId;
-    console.log(control.value[i].answerId);
     if (questionId !== null && answerId !== null) {
       this.loadingCtrl.create({
         message: 'Deleting Answer...'
@@ -332,6 +330,43 @@ export class EditDeleteSocPage implements OnInit, OnDestroy {
         this.form.value.percentage,
         this.form.value.questions,
       ).subscribe(() => {
+        loadingEl.dismiss();
+        this.edit = false;
+      });
+    });
+  }
+
+  async deleteSOCAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirm deletion',
+      message: 'Are you sure you want to delete this SOC?',
+      buttons: [
+        {
+          text: 'Delete SOC',
+          handler: () => {
+            this.onDeleteSOC();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  onDeleteSOC() {
+    this.loadingCtrl.create({
+      message: 'Deleting SOC...'
+    }).then(loadingEl => {
+      loadingEl.present();
+      this.socsService.deleteSOC(
+        this.soc.id,
+      ).subscribe(() => {
+        this.router.navigateByUrl('/view-soc');
         loadingEl.dismiss();
         this.edit = false;
       });

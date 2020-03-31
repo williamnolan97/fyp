@@ -26,6 +26,7 @@ export class SocQuestionPage implements OnInit, OnDestroy {
   answers: SocAnswer[];
   url: string;
   nextIndex: number;
+  score: number;
   isLoading = false;
   isLoadingQuestion = false;
   isLoadingAnswer = false;
@@ -198,6 +199,7 @@ export class SocQuestionPage implements OnInit, OnDestroy {
       }
     }
     this.answered = true;
+    this.score = this.questionService.getScore();
   }
 
   shuffle(array: SocAnswer[]) {
