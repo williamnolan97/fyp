@@ -9,6 +9,7 @@ import { SocQuestionService } from 'src/app/services/soc-question.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Chart } from 'chart.js';
+import { Feedback } from 'src/app/models/feedback.model';
 
 @Component({
   selector: 'app-view-soc-result-detail',
@@ -28,6 +29,7 @@ export class ViewSocResultDetailPage implements OnInit, OnDestroy {
   isLoading = false;
   private resultSub: Subscription;
   private reviewDetailSub: Subscription;
+  feedback: Feedback[];
 
   constructor(
     public resultService: ResultsService,
@@ -55,12 +57,31 @@ export class ViewSocResultDetailPage implements OnInit, OnDestroy {
       this.resultId = paramMap.get('resultId');
       this.socId = paramMap.get('socId');
       this.userId = paramMap.get('userId');
-      this.resultSub = this.resultService.getResult(this.resultId, this.socId, this.userId).subscribe(result => {
-        this.result = result;
-        this.setDoughnut();
-        this.getQuestions();
-        this.isLoading = false;
+      this.getResults();
+    });
+  }
+
+  getResults() {
+    this.resultSub = this.resultService.getResult(this.resultId, this.socId, this.userId).subscribe(result => {
+      this.result = result;
+      console.log(this.result.feedback);
+      const feedback = [];
+      for (const key in this.result.feedback) {
+        if (this.result.feedback.hasOwnProperty(key)) {
+          feedback.push(new Feedback(
+            key,
+            this.result.feedback[key].feedback,
+            this.result.feedback[key].senderName,
+            this.result.feedback[key].date,
+          ));
+        }
+      }
+      this.feedback = feedback.sort((a, b) => {
+        return b.date.localeCompare(a.date) || 0;
       });
+      this.setDoughnut();
+      this.getQuestions();
+      this.isLoading = false;
     });
   }
 
