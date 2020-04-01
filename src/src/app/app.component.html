@@ -17,7 +17,7 @@
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle menuId="navId" *ngIf="!isLoading">
-          <ion-item lines="none" routerLink="{{ url }}">
+          <ion-item lines="none" routerLink="{{ resultsUrl }}">
             <ion-icon name="Star" slot="start"></ion-icon>
             <ion-label>My Results</ion-label>
           </ion-item>
@@ -35,7 +35,7 @@
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle menuId="navId">
-          <ion-item lines="none">
+          <ion-item lines="none" routerLink="{{ progressionUrl }}">
             <ion-icon name="trending-up" slot="start"></ion-icon>
             <ion-label>My Progression</ion-label>
           </ion-item>

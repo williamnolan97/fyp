@@ -32,6 +32,10 @@ const routes: Routes = [
     path: 'review-progression',
     loadChildren: () => import('./private/review-progression/review-progression.module').then( m => m.ReviewProgressionPageModule)
   },
+  {
+    path: 'my-progression/:userId',
+    loadChildren: () => import('./private/my-progression/my-progression.module').then( m => m.MyProgressionPageModule)
+  },
 ];
 
 @NgModule({

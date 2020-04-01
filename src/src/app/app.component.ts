@@ -13,7 +13,8 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   userId: string;
-  url: string;
+  resultsUrl: string;
+  progressionUrl: string;
   isLoading = false;
 
   constructor(
@@ -30,7 +31,8 @@ export class AppComponent {
     this.isLoading = true;
     this.authService.userId.subscribe(userId => {
       this.userId = userId;
-      this.url = '/my-results/' + userId;
+      this.resultsUrl = '/my-results/' + userId;
+      this.progressionUrl = '/my-progression/' + userId;
       this.isLoading = false;
     });
     this.platform.ready().then(() => {

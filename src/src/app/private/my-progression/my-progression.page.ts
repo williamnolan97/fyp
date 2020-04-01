@@ -1,20 +1,20 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Chart } from 'chart.js';
+import { Subscription } from 'rxjs';
+import { Soc } from 'src/app/models/soc.model';
+import { UserData } from 'src/app/models/userData.model';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { ResultsService } from 'src/app/services/results.service';
-import { Subscription } from 'rxjs';
 import { ReviewDetailService } from 'src/app/services/review-detail.service';
-import { Soc } from 'src/app/models/soc.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { UserData } from 'src/app/models/userData.model';
 
 @Component({
-  selector: 'app-review-user-progression',
-  templateUrl: './review-user-progression.page.html',
-  styleUrls: ['./review-user-progression.page.scss'],
+  selector: 'app-my-progression',
+  templateUrl: './my-progression.page.html',
+  styleUrls: ['./my-progression.page.scss'],
 })
-export class ReviewUserProgressionPage implements OnInit, OnDestroy {
+export class MyProgressionPage implements OnInit, OnDestroy {
   @ViewChild('lineCanvas', {static: false}) lineCanvas: ElementRef;
 
   private lineChart: Chart;
@@ -129,7 +129,7 @@ export class ReviewUserProgressionPage implements OnInit, OnDestroy {
           },
           title: {
             display: true,
-            text: this.user.fname + '\'s Progression'
+            text: 'My Progression'
           }
       }
     });
