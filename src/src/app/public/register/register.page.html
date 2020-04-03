@@ -5,7 +5,93 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3"> 
+          <ion-item>
+            <ion-label position="floating">First Name</ion-label>
+            <ion-input 
+              type="text" 
+              autocomplete 
+              autocorrect 
+              formControlName="fname"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3"> 
+          <ion-item>
+            <ion-label position="floating">Last Name</ion-label>
+            <ion-input 
+              type="text" 
+              autocomplete 
+              autocorrect 
+              formControlName="lname"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3"> 
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input 
+              type="email" 
+              autocomplete 
+              autocorrect 
+              formControlName="email"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3"> 
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input 
+              type="password" 
+              autocomplete 
+              autocorrect 
+              formControlName="password"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-radio-group value="member">
+            <ion-list-header>
+              <ion-label>Role</ion-label>
+            </ion-list-header>
+            <ion-item>
+              <ion-label>Crew Memeber</ion-label>
+              <ion-radio slot="start" value="member"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Crew Trainer</ion-label>
+              <ion-radio slot="start" value="trainer"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Manager</ion-label>
+              <ion-radio slot="start" value="manager"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3">
+        <ion-button (click)="registerUser()">
+          Submit
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
     <ion-grid>      
       <ion-row>
         <ion-col size-sm="6" offset-sm="3">
@@ -48,5 +134,5 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  </form>
+  </form> -->
 </ion-content>

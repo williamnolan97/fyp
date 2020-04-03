@@ -22,6 +22,15 @@ export class TodoPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    // console.log(navigator.userAgent);
+    // const ua = navigator.userAgent;
+    // if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
+    //    console.log('mobile');
+    // } else if (/Chrome/i.test(ua)) {
+    //   console.log('chrome');
+    // } else {
+    //       console.log('desktop');
+    // }
     this.socsSub = this.socsService.socs.subscribe(socs => {
       this.loadedSocs = socs;
       this.listedLoadedPlaces = this.loadedSocs.slice(1);

@@ -120,9 +120,9 @@ export class MyProgressionPage implements OnInit, OnDestroy {
               xAxes: [{
                   type: 'time',
                   time: {
-                      unit: 'day',
+                      unit: 'month',
                       displayFormats: {
-                        day: 'MMM D'
+                        day: 'MMM YY'
                       }
                   }
               }]
@@ -130,6 +130,11 @@ export class MyProgressionPage implements OnInit, OnDestroy {
           title: {
             display: true,
             text: 'My Progression'
+          },
+          elements: {
+            line: {
+                tension: 0
+            }
           }
       }
     });

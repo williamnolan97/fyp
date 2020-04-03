@@ -120,9 +120,9 @@ export class ReviewUserProgressionPage implements OnInit, OnDestroy {
               xAxes: [{
                   type: 'time',
                   time: {
-                      unit: 'day',
+                      unit: 'month',
                       displayFormats: {
-                        day: 'MMM D'
+                        day: 'MMM YY'
                       }
                   }
               }]
@@ -130,6 +130,11 @@ export class ReviewUserProgressionPage implements OnInit, OnDestroy {
           title: {
             display: true,
             text: this.user.fname + '\'s Progression'
+          },
+          elements: {
+            line: {
+                tension: 0
+            }
           }
       }
     });

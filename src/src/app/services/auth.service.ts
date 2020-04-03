@@ -21,7 +21,6 @@ interface UserDataInterface {
   email: string;
   fname: string;
   lname: string;
-  fullName: string;
   socs: string[];
 }
 
@@ -126,7 +125,7 @@ export class AuthService {
     ).pipe(tap(this.setUserData.bind(this)));
   }
 
-  createUser(userId: string, email: string, fname: string, lname: string) {
+  createUser(userId: string, email: string, fname: string, lname: string, role: number) {
     const newUser = new UserData(
       userId,
       email,
