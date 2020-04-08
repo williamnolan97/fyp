@@ -261,7 +261,6 @@ export class SocsService {
             // tslint:disable-next-line: forin
             for (const key2 in resData[key]) {
                 this.dates.push(new Date(resData[key][key2].date));
-                console.log(resData[key][key2]);
             }
             this.dates = this.dates.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
             if (this.dates[0].getTime() < sixMonths.getTime()) {

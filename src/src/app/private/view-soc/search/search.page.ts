@@ -13,12 +13,14 @@ import { AuthService } from 'src/app/services/auth.service';
 export class SearchPage implements OnInit, OnDestroy {
 
   loadedSocs: Soc[];
-  listedLoadedSocs: Soc[];
+  listSocs: Soc[];
   userData: UserData;
   private socsSub: Subscription;
   private authSub: Subscription;
   isLoading = false;
+  isLoadingSoc = false;
   isLoadingUser = false;
+  isItemAvailable = false;
 
   constructor(
     private socsService: SocsService,
@@ -26,9 +28,11 @@ export class SearchPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.isLoadingSoc = true;
     this.socsSub = this.socsService.socs.subscribe(socs => {
       this.loadedSocs = socs;
-      this.listedLoadedSocs = this.loadedSocs.slice(1);
+      this.listSocs = socs;
+      this.isLoadingSoc = false;
     });
     this.isLoadingUser = true;
     this.authSub = this.authService.currUser.subscribe(userData => {
@@ -42,6 +46,21 @@ export class SearchPage implements OnInit, OnDestroy {
     this.socsService.fetchSocs().subscribe(() => {
       this.isLoading = false;
     });
+  }
+
+  initializeItems() {
+    this.listSocs = this.loadedSocs;
+  }
+
+  filter(event: any) {
+    this.initializeItems();
+    const val = event.target.value;
+    if (val && val.trim() !== '') {
+      this.isItemAvailable = true;
+      this.listSocs = this.listSocs.filter((item) => {
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      });
+    }
   }
 
   ngOnDestroy() {

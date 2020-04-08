@@ -13,7 +13,23 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <ion-searchbar showCancelButton="focus" (ionInput)="filter($event)"></ion-searchbar>
   <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>  
+  <p *ngIf="!isLoading && loadedSocs.length > 0 && listSocs.length <= 0" class="ion-text-center">
+    SOC not found.
+  </p>
+  <ion-list *ngIf="!isLoading && !isLoadingSoc && listSocs.length > 0">
+    <ion-item 
+      *ngFor="let soc of listSocs"
+      [routerLink]="['/', 'view-soc', soc.id]"
+      detail
+    >
+    {{ soc.name }}
+    </ion-item>
+  </ion-list>
+  <!-- <div *ngIf="isLoading" class="ion-text-center">
     <ion-spinner color="primary"></ion-spinner>
   </div>  
   <p *ngIf="!isLoading && loadedSocs.length <= 0" class="ion-text-center">No SOCs found.</p>
@@ -58,5 +74,5 @@
         </ion-virtual-scroll>
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
 </ion-content>
