@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { take, map, tap, delay, switchMap } from 'rxjs/operators';
+import { take, map, tap, delay, switchMap, filter } from 'rxjs/operators';
 
 import { Soc } from 'src/app/models/soc.model';
 import { BehaviorSubject } from 'rxjs';
@@ -7,6 +7,8 @@ import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { SocQuestion } from 'src/app/models/soc-question.model';
 import { SocQuestionService } from './soc-question.service';
+import { Feedback } from '../models/feedback.model';
+import { Result } from '../models/result.model';
 
 interface SocData {
   description: string;
@@ -14,12 +16,23 @@ interface SocData {
   name: string;
   percent: number;
 }
+interface ResultData {
+  id: string;
+  result: number;
+  total: number;
+  incorrect: string[];
+  feedback: Feedback[];
+  date: Date;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocsService {
   private _socs = new BehaviorSubject<Soc[]>([]);
+  private _pendingSocs = new BehaviorSubject<Soc[]>([]);
+  socIds: string[];
+  dates: Date[];
 
   constructor(
     private authService: AuthService,
@@ -29,6 +42,10 @@ export class SocsService {
 
   get socs() {
     return this._socs.asObservable();
+  }
+
+  get pendingSocs() {
+    return this._pendingSocs.asObservable();
   }
 
   fetchSocs() {
@@ -57,6 +74,41 @@ export class SocsService {
       })
     );
   }
+
+  // fetchPendingSocs() {
+  //   return this.http
+  //     .get<{[key: string]: SocData}>(
+  //       'https://fyp-wnolan.firebaseio.com/soc.json'
+  //     )
+  //     .pipe(map(resData => {
+  //       const socs = [];
+  //       for (const key in resData) {
+  //         if (resData.hasOwnProperty(key)) {
+  //           socs.push(new Soc(
+  //             key,
+  //             resData[key].name,
+  //             resData[key].description,
+  //             resData[key].percent,
+  //             []
+  //           )
+  //           );
+  //         }
+  //       }
+  //       var today = new Date();
+  //       var sixMonths = new Date(today);
+  //       sixMonths.setMonth(today.getMonth() - 6);
+  //       console.log(today);
+  //       console.log(sixMonths);
+  //       socs.filter(soc => {
+  //         return soc.
+  //       })
+  //       return socs;
+  //     }),
+  //     tap(socs => {
+  //       this._socs.next(socs);
+  //     })
+  //   );
+  // }
 
   getSoc(id: string) {
     return this.http
@@ -161,5 +213,66 @@ export class SocsService {
           this._socs.next(socs.filter(b => b.id !== socId));
         })
       );
+  }
+
+  getPendingSocs(userId: string) {
+    this.getPendingSocIds(userId).subscribe();
+    return this.http
+    .get<{[key: string]: SocData}>(
+      'https://fyp-wnolan.firebaseio.com/soc.json'
+    )
+    .pipe(map(resData => {
+      const socs = [];
+      for (const key in resData) {
+        if (resData.hasOwnProperty(key)) {
+          if (this.socIds.indexOf(key) !== -1) {
+            socs.push(new Soc(
+              key,
+              resData[key].name,
+              resData[key].description,
+              resData[key].percent,
+              []
+            )
+            );
+          }
+        }
+      }
+      return socs;
+    }),
+    tap(socs => {
+      this._pendingSocs.next(socs);
+    })
+  );
+  }
+
+  getPendingSocIds(userId: string) {
+    return this.http
+      .get<{[key: string]: any}>(
+        `https://fyp-wnolan.firebaseio.com/result/${userId}.json`
+      )
+      .pipe(map(resData => {
+        const socs = [];
+        var today = new Date();
+        var sixMonths = new Date(today);
+        sixMonths.setMonth(today.getMonth() - 6);
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key)) {
+            this.dates = [];
+            // tslint:disable-next-line: forin
+            for (const key2 in resData[key]) {
+                this.dates.push(new Date(resData[key][key2].date));
+                console.log(resData[key][key2]);
+            }
+            this.dates = this.dates.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+            if (this.dates[0].getTime() < sixMonths.getTime()) {
+              socs.push(key);
+            }
+          }
+        }
+        return socs;
+      }),
+      tap(socs => {
+        this.socIds = socs;
+      }));
   }
 }

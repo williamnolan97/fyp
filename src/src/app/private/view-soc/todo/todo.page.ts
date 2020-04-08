@@ -39,7 +39,7 @@ export class TodoPage implements OnInit, OnDestroy {
       this.userData = userData;
       this.isLoadingUser = false;
     });
-    this.socsSub = this.socsService.socs.subscribe(socs => {
+    this.socsSub = this.socsService.pendingSocs.subscribe(socs => {
       this.loadedSocs = socs;
       this.listedLoadedPlaces = this.loadedSocs.slice(1);
     });
@@ -47,7 +47,7 @@ export class TodoPage implements OnInit, OnDestroy {
 
   ionViewWillEnter() {
     this.isLoading = true;
-    this.socsService.fetchSocs().subscribe(() => {
+    this.socsService.getPendingSocs(this.userData.id).subscribe(() => {
       this.isLoading = false;
     });
   }
