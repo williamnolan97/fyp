@@ -6,7 +6,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
   { path: 'auth', loadChildren: './auth/auth.module#AuthPageModule' },
   // { path: 'socs', loadChildren: './socs/socs.module#SocsPageModule'}, //, canLoad: [AuthGuard]
-  { path: 'register', loadChildren: './public/register/register.module#RegisterPageModule' },
+  { path: 'register', loadChildren: './public/register/register.module#RegisterPageModule', canLoad: [AuthGuard]},
   { path: 'login', loadChildren: './public/login/login.module#LoginPageModule' },
   {
     path: 'view-soc',
@@ -42,6 +42,10 @@ const routes: Routes = [
     path: 'my-progression/:userId',
     loadChildren: () => import('./private/my-progression/my-progression.module').then( m => m.MyProgressionPageModule),
       canLoad: [AuthGuard]
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./private/admin/admin.module').then( m => m.AdminPageModule)
   },
 ];
 

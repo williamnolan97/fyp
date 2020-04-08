@@ -14,11 +14,14 @@ export class TodoPage implements OnInit, OnDestroy {
   loadedSocs: Soc[];
   listedLoadedPlaces: Soc[];
   private socsSub: Subscription;
+  private authSub: Subscription;
   isLoading = false;
-  currUser: UserData;
+  isLoadingUser = false;
+  userData: UserData;
 
   constructor(
     private socsService: SocsService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -31,6 +34,11 @@ export class TodoPage implements OnInit, OnDestroy {
     // } else {
     //       console.log('desktop');
     // }
+    this.isLoadingUser = true;
+    this.authSub = this.authService.currUser.subscribe(userData => {
+      this.userData = userData;
+      this.isLoadingUser = false;
+    });
     this.socsSub = this.socsService.socs.subscribe(socs => {
       this.loadedSocs = socs;
       this.listedLoadedPlaces = this.loadedSocs.slice(1);
@@ -47,6 +55,9 @@ export class TodoPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.socsSub) {
       this.socsSub.unsubscribe();
+    }
+    if (this.authSub) {
+      this.authSub.unsubscribe();
     }
   }
 

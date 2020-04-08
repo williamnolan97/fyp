@@ -107,7 +107,6 @@ export class LeaderboardService {
           })
         );
     }
-    console.log('adding now');
   }
 
   fetchLeaderboard(socId: string) {

@@ -33,10 +33,11 @@ export class AuthPage implements OnInit {
         let authObs: Observable<AuthResponseData>;
         authObs = this.authService.login(email, password);
         authObs.subscribe(resData => {
-          this.authService.updateCurrUser(resData.localId).subscribe();
-          this.isLoading = false;
-          loadingEl.dismiss();
-          this.router.navigateByUrl('view-soc');
+          this.authService.updateCurrUser(resData.localId).subscribe(() => {
+            this.isLoading = false;
+            loadingEl.dismiss();
+            this.router.navigateByUrl('view-soc');
+          });
         }, errRes => {
           loadingEl.dismiss();
           const code = errRes.error.error.message;

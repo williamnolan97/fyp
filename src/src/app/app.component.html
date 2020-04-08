@@ -22,7 +22,7 @@
             <ion-label>My Results</ion-label>
           </ion-item>
         </ion-menu-toggle>
-        <ion-menu-toggle menuId="navId">
+        <ion-menu-toggle menuId="navId" *ngIf="!isLoadingRole && userRole > 0">
           <ion-item lines="none" routerLink="review-soc">
             <ion-icon name="clipboard" slot="start"></ion-icon>
             <ion-label>Review SOCs</ion-label>
@@ -40,10 +40,16 @@
             <ion-label>My Progression</ion-label>
           </ion-item>
         </ion-menu-toggle>
-        <ion-menu-toggle menuId="navId">
+        <ion-menu-toggle menuId="navId" *ngIf="!isLoadingRole && userRole > 0">
           <ion-item lines="none" routerLink="review-progression">
             <ion-icon name="trending-up" slot="start"></ion-icon>
             <ion-label>Review Progression</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle menuId="navId" *ngIf="!isLoadingRole && userRole > 2">
+          <ion-item lines="none" routerLink="Admin">
+            <ion-icon name="contact" slot="start"></ion-icon>
+            <ion-label>Admin</ion-label>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle menuId="navId">

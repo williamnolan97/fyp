@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../models/user.model';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, switchMap, take } from 'rxjs/operators';
 import { UserData } from '../models/userData.model';
 import { environment } from 'src/environments/environment';
 
@@ -21,6 +21,7 @@ interface UserDataInterface {
   email: string;
   fname: string;
   lname: string;
+  role: number;
   socs: string[];
 }
 
@@ -45,10 +46,22 @@ export class AuthService {
   }
 
   get userId() {
-    return this._user.asObservable().pipe(
+    return this._currUser.asObservable().pipe(
       map(user => {
         if (user) {
           return user.id;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  get userRole() {
+    return this._currUser.asObservable().pipe(
+      map(user => {
+        if (user) {
+          return user.role;
         } else {
           return null;
         }
@@ -82,6 +95,7 @@ export class AuthService {
               resData[key].email,
               resData[key].fname,
               resData[key].lname,
+              resData[key].role,
               resData[key].socs
             ));
           }
@@ -110,6 +124,7 @@ export class AuthService {
             resData.email,
             resData.fname,
             resData.lname,
+            resData.role,
             resData.socs
           );
       })
@@ -131,6 +146,7 @@ export class AuthService {
       email,
       fname,
       lname,
+      -1,
       []
     );
     return this.http
@@ -166,10 +182,38 @@ export class AuthService {
             userData.email,
             userData.fname,
             userData.lname,
+            userData.role,
             userData.socs
           ));
         })
       );
+  }
+
+  updateRole(role: number, selectedUser: UserData) {
+    let generatedId: string;
+    const newUser = new UserData(
+      selectedUser.id,
+      selectedUser.email,
+      selectedUser.fname,
+      selectedUser.lname,
+      role,
+      []
+    );
+    return this.http.put<{name: string}>(`https://fyp-wnolan.firebaseio.com/user/${selectedUser.id}.json`, {
+      ...newUser,
+      id: null
+    })
+    .pipe(
+      switchMap(resData => {
+        generatedId = resData.name;
+        return this.users;
+      }),
+      take(1),
+      tap(users => {
+        newUser.id = generatedId;
+        this._users.next(users.concat(newUser));
+      })
+    );
   }
 
   logout() {

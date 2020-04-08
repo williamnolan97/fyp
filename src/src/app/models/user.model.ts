@@ -1,4 +1,5 @@
 export class User {
+    role: any;
     constructor(
         public id: string,
         public email: string,

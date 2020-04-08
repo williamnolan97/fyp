@@ -18,6 +18,7 @@ export class SearchPage implements OnInit, OnDestroy {
   private socsSub: Subscription;
   private authSub: Subscription;
   isLoading = false;
+  isLoadingUser = false;
 
   constructor(
     private socsService: SocsService,
@@ -29,8 +30,10 @@ export class SearchPage implements OnInit, OnDestroy {
       this.loadedSocs = socs;
       this.listedLoadedSocs = this.loadedSocs.slice(1);
     });
+    this.isLoadingUser = true;
     this.authSub = this.authService.currUser.subscribe(userData => {
       this.userData = userData;
+      this.isLoadingUser = false;
     });
   }
 

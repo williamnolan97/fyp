@@ -13,9 +13,11 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   userId: string;
+  userRole: number;
   resultsUrl: string;
   progressionUrl: string;
   isLoading = false;
+  isLoadingRole = false;
 
   constructor(
     private platform: Platform,
@@ -34,6 +36,11 @@ export class AppComponent {
       this.resultsUrl = '/my-results/' + userId;
       this.progressionUrl = '/my-progression/' + userId;
       this.isLoading = false;
+    });
+    this.isLoadingRole = true;
+    this.authService.userRole.subscribe(role => {
+      this.userRole = role;
+      this.isLoadingRole = false;
     });
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();

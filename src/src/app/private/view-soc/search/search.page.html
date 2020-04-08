@@ -4,7 +4,7 @@
       <ion-menu-button menuId="navId"></ion-menu-button>
     </ion-buttons>    
     <ion-title>Search</ion-title>
-    <ion-buttons slot="primary">
+    <ion-buttons slot="primary" *ngIf="!isLoadingUser && userData.role > 1">
       <ion-button routerLink="/view-soc/add-new-soc">
         <ion-icon name="add" slot="icon-only"></ion-icon>
       </ion-button>
