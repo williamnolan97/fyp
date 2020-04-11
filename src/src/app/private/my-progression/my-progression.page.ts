@@ -135,7 +135,9 @@ export class MyProgressionPage implements OnInit, OnDestroy {
             line: {
                 tension: 0
             }
-          }
+          },
+          maintainAspectRatio: false,
+          responsive: true,
       }
     });
   }

@@ -78,7 +78,9 @@ export class QuestionService {
     return this.progress;
   }
 
-  addScore(bonus: number){
+  addScore(bonus: number) {
+    console.log(this.score);
+    console.log(this.streak);
     if (bonus > 0) {
       this.score += Math.round(bonus);
     }
@@ -90,6 +92,8 @@ export class QuestionService {
       }
     }
     this.score += 100;
+    console.log(this.score);
+    console.log(this.streak);
   }
 
   getScore() {
