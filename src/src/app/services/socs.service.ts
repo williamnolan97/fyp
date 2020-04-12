@@ -32,7 +32,9 @@ export class SocsService {
   private _socs = new BehaviorSubject<Soc[]>([]);
   private _pendingSocs = new BehaviorSubject<Soc[]>([]);
   socIds: string[];
+  allResultIds: string[] = [];
   dates: Date[];
+  noResults = false;
 
   constructor(
     private authService: AuthService,
@@ -223,9 +225,10 @@ export class SocsService {
     )
     .pipe(map(resData => {
       const socs = [];
+      console.log(resData);
       for (const key in resData) {
         if (resData.hasOwnProperty(key)) {
-          if (this.socIds.indexOf(key) !== -1) {
+          if (this.socIds.indexOf(key) !== -1 || this.allResultIds.indexOf(key) === -1) {
             socs.push(new Soc(
               key,
               resData[key].name,
@@ -262,12 +265,15 @@ export class SocsService {
             for (const key2 in resData[key]) {
                 this.dates.push(new Date(resData[key][key2].date));
             }
+            this.allResultIds.push(key);
             this.dates = this.dates.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
             if (this.dates[0].getTime() < sixMonths.getTime()) {
               socs.push(key);
             }
           }
         }
+        console.log(this.allResultIds);
+        console.log(socs);
         return socs;
       }),
       tap(socs => {
