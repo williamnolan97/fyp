@@ -1,3 +1,8 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: User data object.
+ */
 export class UserData {
     constructor(
         public id: string,

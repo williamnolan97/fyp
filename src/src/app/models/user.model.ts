@@ -1,3 +1,8 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: User object.
+ */
 export class User {
     role: any;
     constructor(

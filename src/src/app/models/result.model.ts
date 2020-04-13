@@ -1,3 +1,8 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: Result object.
+ */
 import { Feedback } from './feedback.model';
 
 export class Result {
