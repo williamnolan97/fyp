@@ -1,3 +1,9 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: This service handles all the user authentication
+ *              from the back-end.
+ */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
@@ -33,6 +39,12 @@ export class AuthService {
   private _currUser = new BehaviorSubject<UserData>(null);
   private _users = new BehaviorSubject<UserData[]>([]);
 
+
+  /**
+   * Returns whether the current user is authenticated.
+   *
+   * @return    true/ false if user is authenticated
+   */
   get userIsAuthenticated() {
     return this._user.asObservable().pipe(
       map(user => {
@@ -45,6 +57,11 @@ export class AuthService {
     );
   }
 
+  /**
+   * Returns the current user ID.
+   *
+   * @return    User ID
+   */
   get userId() {
     return this._currUser.asObservable().pipe(
       map(user => {
@@ -57,6 +74,15 @@ export class AuthService {
     );
   }
 
+  /**
+   * Returns the current user's role.
+   *
+   * @return      -1 - 2
+   *              -1 - Default Unassigned Role
+   *              0 - Crew Member
+   *              1 - Crew Trainer
+   *              2 - Manager
+   */
   get userRole() {
     return this._currUser.asObservable().pipe(
       map(user => {
@@ -69,10 +95,20 @@ export class AuthService {
     );
   }
 
+  /**
+   * Returns the current user.
+   *
+   * @return    User
+   */
   get currUser() {
     return this._currUser.asObservable();
   }
 
+  /**
+   * Returns the all users.
+   *
+   * @return    Users
+   */
   get users() {
     return this._users.asObservable();
   }
@@ -81,6 +117,11 @@ export class AuthService {
     private http: HttpClient,
   ) { }
 
+  /**
+   * Fetches all the users from back-end.
+   *
+   * @return    Subscribable.
+   */
   fetchUsers() {
     return this.http
       .get<{[key: string]: UserDataInterface}>(
@@ -112,6 +153,12 @@ export class AuthService {
     );
   }
 
+  /**
+   * Fetches specified user from back-end.
+   *
+   * @param     string id
+   * @return    Subscribable.
+   */
   getUser(id: string) {
     return this.http
     .get<UserData>(
@@ -131,6 +178,14 @@ export class AuthService {
     );
   }
 
+
+  /**
+   * Signs up a user,
+   *
+   * @param     string email
+   * @param     string password
+   * @return    Subscribable.
+   */
   signUp(email: string, password: string) {
     return this.http.post<AuthResponseData>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${
@@ -140,7 +195,16 @@ export class AuthService {
     ).pipe(tap(this.setUserData.bind(this)));
   }
 
-  createUser(userId: string, email: string, fname: string, lname: string, role: number) {
+  /**
+   * Creates user object in back-end.
+   *
+   * @param     string userId
+   * @param     string email
+   * @param     string fname
+   * @param     string lname
+   * @return    Subscribable.
+   */
+  createUser(userId: string, email: string, fname: string, lname: string) {
     const newUser = new UserData(
       userId,
       email,
@@ -161,6 +225,13 @@ export class AuthService {
       );
   }
 
+  /**
+   * Logs user into system.
+   *
+   * @param     string email
+   * @param     string password
+   * @return    Subscribable.
+   */
   login(email: string, password: string) {
     return this.http.post<AuthResponseData>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${
@@ -170,6 +241,12 @@ export class AuthService {
     ).pipe(tap(this.setUserData.bind(this)));
   }
 
+  /**
+   * Updates currently logged in user info.
+   *
+   * @param     string id
+   * @return    Subscribable.
+   */
   updateCurrUser(id: string) {
     return this.http
       .get<UserDataInterface>(
@@ -189,6 +266,14 @@ export class AuthService {
       );
   }
 
+
+  /**
+   * Updates a user's role.
+   *
+   * @param     number role
+   * @param     UserData selectedUser
+   * @return    Subscribable.
+   */
   updateRole(role: number, selectedUser: UserData) {
     let generatedId: string;
     const newUser = new UserData(
@@ -216,10 +301,18 @@ export class AuthService {
     );
   }
 
+  /**
+   * Logs the current user out.
+   */
   logout() {
     this._user.next(null);
   }
 
+  /**
+   * Sets the current user's authenication data.
+   *
+   * @param AuthResponseData userData
+   */
   private setUserData(userData: AuthResponseData) {
     const expirationTime = new Date(new Date().getTime() + +userData.expiresIn * 1000);
     this._user.next(new User(

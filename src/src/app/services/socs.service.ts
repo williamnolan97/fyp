@@ -1,3 +1,9 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: This service handles all the access
+ *              to the back-end for all SOC actions.
+ */
 import { Injectable } from '@angular/core';
 import { take, map, tap, delay, switchMap, filter } from 'rxjs/operators';
 
@@ -42,14 +48,29 @@ export class SocsService {
     private socQuestionServive: SocQuestionService
   ) { }
 
+  /**
+   * Returns SOCs from back-end.
+   *
+   * @returns SOCs
+   */
   get socs() {
     return this._socs.asObservable();
   }
 
+  /**
+   * Returns pending SOCs.
+   * 
+   * @returns Pending SOCs
+   */
   get pendingSocs() {
     return this._pendingSocs.asObservable();
   }
 
+  /**
+   * Fetches SOCs from back-end.
+   *
+   * @returns Subscribable
+   */
   fetchSocs() {
     return this.http
       .get<{[key: string]: SocData}>(
@@ -77,41 +98,12 @@ export class SocsService {
     );
   }
 
-  // fetchPendingSocs() {
-  //   return this.http
-  //     .get<{[key: string]: SocData}>(
-  //       'https://fyp-wnolan.firebaseio.com/soc.json'
-  //     )
-  //     .pipe(map(resData => {
-  //       const socs = [];
-  //       for (const key in resData) {
-  //         if (resData.hasOwnProperty(key)) {
-  //           socs.push(new Soc(
-  //             key,
-  //             resData[key].name,
-  //             resData[key].description,
-  //             resData[key].percent,
-  //             []
-  //           )
-  //           );
-  //         }
-  //       }
-  //       var today = new Date();
-  //       var sixMonths = new Date(today);
-  //       sixMonths.setMonth(today.getMonth() - 6);
-  //       console.log(today);
-  //       console.log(sixMonths);
-  //       socs.filter(soc => {
-  //         return soc.
-  //       })
-  //       return socs;
-  //     }),
-  //     tap(socs => {
-  //       this._socs.next(socs);
-  //     })
-  //   );
-  // }
-
+  /**
+   * Gets a specified SOC from the back-end.
+   *
+   * @param string id
+   * @returns Subscribable
+   */
   getSoc(id: string) {
     return this.http
     .get<SocData>(
@@ -130,6 +122,15 @@ export class SocsService {
     );
   }
 
+  /**
+   * Creates a new SOC and sends it to the back-end.
+   *
+   * @param string name
+   * @param string description
+   * @param number percent
+   * @param any[] questions
+   * @returns Subscribable
+   */
   createSoc(name: string, description: string, percent: number, questions: any[]) {
     let generatedId: string;
     const newSoc = new Soc(
@@ -163,6 +164,16 @@ export class SocsService {
       );
   }
 
+  /**
+   * Updates an SOC.
+   *
+   * @param string socId
+   * @param string name
+   * @param string description
+   * @param number percent
+   * @param any[] questions
+   * @returns Subscribable
+   */
   updateSoc(socId: string, name: string, description: string, percent: number, questions: any[]) {
     let generatedId: string;
     const newSoc = new Soc(
@@ -203,6 +214,12 @@ export class SocsService {
       );
   }
 
+  /**
+   * Deletes a specified SOC from the back-end.
+   *
+   * @param string socId
+   * @returns Subscribable
+   */
   deleteSOC(socId: string) {
     return this.http
       .delete(`https://fyp-wnolan.firebaseio.com/soc/${socId}.json`)
@@ -217,6 +234,12 @@ export class SocsService {
       );
   }
 
+  /**
+   * Gets pending SOCs, i.e. SOCs that haven't been completed within the last 6 months.
+   *
+   * @param string userId
+   * @returns Subscribable
+   */
   getPendingSocs(userId: string) {
     this.getPendingSocIds(userId).subscribe();
     return this.http
@@ -248,6 +271,12 @@ export class SocsService {
   );
   }
 
+  /**
+   * Gets the IDs of the pending SOCs, i.e. SOCs that haven't been completed within the last 6 months.
+   *
+   * @param string userId
+   * @returns Subscribable
+   */
   getPendingSocIds(userId: string) {
     return this.http
       .get<{[key: string]: any}>(

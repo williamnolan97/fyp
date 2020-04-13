@@ -1,3 +1,9 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: This service handles all the access
+ *              to the back-end for all results actions.
+ */
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Result } from '../models/result.model';
@@ -32,14 +38,31 @@ private _feedback = new BehaviorSubject<Feedback[]>([]);
     private authService: AuthService
   ) { }
 
+  /**
+   * Returns results.
+   *
+   * @returns Results
+   */
   get results() {
     return this._results.asObservable();
   }
 
+  /**
+   * Returns feedback.
+   *
+   * @returns Feedback
+   */
   get feedback() {
     return this._feedback.asObservable();
   }
 
+  /**
+   * Fetches specified user and SOC results.
+   *
+   * @param string userId
+   * @param string socId
+   * @returns Subscribable.
+   */
   fetchResults(userId: string, socId: string) {
     return this.http
       .get<{[key: string]: ResultData}>(
@@ -70,6 +93,16 @@ private _feedback = new BehaviorSubject<Feedback[]>([]);
       );
   }
 
+  /**
+   * Adds a result to the back-end.
+   *
+   * @param string userId
+   * @param string socId
+   * @param number result
+   * @param number total
+   * @param string[] incorrect
+   * @returns Subscribable
+   */
   addResult(userId: string, socId: string, result: number, total: number, incorrect: string[]) {
     let generateId: string;
     const newResult = new Result(
@@ -98,6 +131,14 @@ private _feedback = new BehaviorSubject<Feedback[]>([]);
       );
   }
 
+  /**
+   * Returns specified result.
+   *
+   * @param string id
+   * @param string socId
+   * @param string userId
+   * @returns Subscribable
+   */
   getResult(id: string, socId: string, userId: string) {
     return this.http
     .get<ResultData>(
@@ -117,6 +158,16 @@ private _feedback = new BehaviorSubject<Feedback[]>([]);
     );
   }
 
+  /**
+   * Adds feedback to specified result
+   *
+   * @param string feedback
+   * @param string senderName
+   * @param string userId
+   * @param string socId
+   * @param string resultId
+   * @returns Subscribable
+   */
   addFeedback(feedback: string, senderName: string, userId: string, socId: string, resultId: string) {
     let generateId: string;
     const newFeedback = new Feedback(
@@ -143,6 +194,12 @@ private _feedback = new BehaviorSubject<Feedback[]>([]);
     );
   }
 
+  /**
+   * Fetches all users results.
+   *
+   * @param string userId
+   * @returns Subscribable
+   */
   getResultObject(userId: string) {
     return this.http
     .get(

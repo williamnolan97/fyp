@@ -1,3 +1,9 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: This service handles all the access
+ *              to the back-end for all review details actions.
+ */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
@@ -31,14 +37,30 @@ export class ReviewDetailService {
     private http: HttpClient,
   ) { }
 
+  /**
+   * Returns the SOCs from the back-end.
+   *
+   * @returns SOCs
+   */
   get socs() {
     return this._socs.asObservable();
   }
 
+  /**
+   * Returns the questions from the back-end.
+   *
+   * @returns Questions
+   */
   get questions() {
     return this._questions.asObservable();
   }
 
+  /**
+   * Fetches SOCs from back-end from a specified list of SOCs.
+   *
+   * @param string userId
+   * @returns Subscribable
+   */
   getSocs(userId: string) {
     this.getSocIds(userId).subscribe();
     return this.http
@@ -69,6 +91,12 @@ export class ReviewDetailService {
   );
   }
 
+  /**
+   * Gets the IDs of all the SOCs the user has done.
+   *
+   * @param string userId
+   * @returns Subscribable
+   */
   getSocIds(userId: string) {
     return this.http
       .get<{[key: string]: string[]}>(
@@ -88,6 +116,13 @@ export class ReviewDetailService {
       }));
   }
 
+  /**
+   * Gets specified questions from back-end.
+   *
+   * @param string[] questionIds
+   * @param string socId
+   * @returns Subscribable
+   */
   getQuestions(questionIds: string[], socId: string) {
     return this.http
     .get<{[key: string]: SocQuestionData}>(

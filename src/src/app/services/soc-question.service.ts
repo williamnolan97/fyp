@@ -1,3 +1,9 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: This service handles all the access
+ *              to the back-end for all SOC Questions actions.
+ */
 import { Injectable } from '@angular/core';
 import { SocAnswer } from '../models/soc-answer.model';
 import { SocQuestion } from '../models/soc-question.model';
@@ -24,10 +30,21 @@ export class SocQuestionService {
     private socAnswersService: SocAnswerService
   ) { }
 
+  /**
+   * Returns questions from back-end.
+   *
+   * @returns Questions
+   */
   get socQuestions() {
     return this._socQuestions.asObservable();
   }
 
+  /**
+   * Fetches questions from a specified SOC from the back-end.
+   *
+   * @param string socId
+   * @returns Subscribable
+   */
   fetchQuestions(socId: string) {
     return this.http
       .get<{[key: string]: SocQuestionData}>(
@@ -53,6 +70,13 @@ export class SocQuestionService {
     );
   }
 
+  /**
+   * Gets a specified question from the back-end.
+   *
+   * @param string socId
+   * @param string questionId
+   * @returns Subscribable
+   */
   getQuestion(socId: string, questionId: string) {
     return this.http
     .get<SocQuestionData>(
@@ -69,6 +93,14 @@ export class SocQuestionService {
     );
   }
 
+  /**
+   * Creates a question and sends it to the back-end.
+   *
+   * @param string socId
+   * @param string name
+   * @param any[] answers
+   * @returns Subscribable
+   */
   createQuestion(socId: string, name: string, answers: any[]) {
     console.log(name);
     let generatedId: string;
@@ -106,6 +138,15 @@ export class SocQuestionService {
       );
   }
 
+  /**
+   * Updates a question.
+   *
+   * @param string socId
+   * @param string questionId
+   * @param string name
+   * @param any[] answers
+   * @returns Subscribable
+   */
   updateQuestion(socId: string, questionId: string, name: string, answers: any[]) {
     let generatedId: string;
     let isAnswer: boolean;
@@ -148,6 +189,13 @@ export class SocQuestionService {
       );
   }
 
+  /**
+   * Deletes a question from the back-end.
+   *
+   * @param string socId
+   * @param string questionId
+   * @returns Subscribable
+   */
   deleteQuestion(socId: string, questionId: string) {
     return this.http.delete(`https://fyp-wnolan.firebaseio.com/soc/${socId}/questions/${questionId}.json`)
       .pipe(switchMap(() => {

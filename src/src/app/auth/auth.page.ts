@@ -51,7 +51,7 @@ export class AuthPage implements OnInit {
         });
       });
   }
-  authenticateSignUp(email: string, password: string, fname: string, lname: string, role: number) {
+  authenticateSignUp(email: string, password: string, fname: string, lname: string) {
     this.isLoading = true;
     let generatedId: string;
     this.loadingCtrl
@@ -61,7 +61,7 @@ export class AuthPage implements OnInit {
         let authObs: Observable<AuthResponseData>;
         authObs = this.authService.signUp(email, password);
         authObs.subscribe(resData => {
-          this.authService.createUser(resData.localId, email, fname, lname, role).subscribe();
+          this.authService.createUser(resData.localId, email, fname, lname).subscribe();
           this.isLoading = false;
           loadingEl.dismiss();
           this.router.navigateByUrl('view-soc');
@@ -92,7 +92,7 @@ export class AuthPage implements OnInit {
       const lname = form.value.lname;
       const role = form.value.role;
       console.log(role);
-      this.authenticateSignUp(email, password, fname, lname, role);
+      this.authenticateSignUp(email, password, fname, lname);
     }
     form.reset();
   }

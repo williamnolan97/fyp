@@ -1,3 +1,9 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: This file handles all the whether
+ *              a user has access to a specified page.
+ */
 import { Injectable } from '@angular/core';
 import {
   CanActivate,

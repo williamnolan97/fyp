@@ -1,3 +1,9 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: This service handles all the access
+ *              to the back-end for all leaderboard actions.
+ */
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
@@ -25,20 +31,36 @@ export class LeaderboardService {
     private authService: AuthService
   ) { }
 
+  /**
+   * Returns the leaderboard from the back-end.
+   *
+   * @return Leaderboard
+   */
   get leaderboard() {
     return this._leaderboard.asObservable();
   }
 
+  /**
+   * Compares new leaderboard score with old leaderboard score and stores best score.
+   *
+   * @param string socId
+   * @param string name
+   */
   compareScores(socId: string, name: string) {
     this.fetchLeaderboard(socId).subscribe(leaderboard => {
       if (leaderboard.find(x => x.name === name) !== undefined) {
         this.oldRecord = leaderboard.find(x => x.name === name);
       }
-      console.log('oldRecord');
-      console.log(this.oldRecord);
     });
   }
 
+  /**
+   * Adds new leaderboard record to back-end.
+   *
+   * @param string socId
+   * @param number score
+   * @returns Subscribable
+   */
   addLeaderboard(socId: string, score: number) {
     let generateId: string;
     let name;
@@ -109,6 +131,12 @@ export class LeaderboardService {
     }
   }
 
+  /**
+   * Fetches the SOC leaderboard from the back-end.
+   *
+   * @param string socId
+   * @returns Subscribable
+   */
   fetchLeaderboard(socId: string) {
     return this.http
     .get<LeaderboardData>(

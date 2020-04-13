@@ -1,3 +1,9 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: This service handles all the access
+ *              to the back-end for all SOC answers actions.
+ */
 import { Injectable } from '@angular/core';
 import { SocAnswer } from '../models/soc-answer.model';
 import { BehaviorSubject } from 'rxjs';
@@ -21,10 +27,22 @@ export class SocAnswerService {
     private http: HttpClient
   ) { }
 
+  /**
+   * Returns answers from back-end.
+   *
+   * @returns Answers.
+   */
   get socAnswers() {
     return this._socAnswers.asObservable();
   }
 
+  /**
+   * Fetches answers from back-end.
+   *
+   * @param string socId
+   * @param string questionId
+   * @returns Subscribable
+   */
   fetchAnswers(socId: string, questionId: string) {
     return this.http
       .get<{[key: string]: SocAnswerData}>(
@@ -50,6 +68,15 @@ export class SocAnswerService {
     );
   }
 
+  /**
+   * Creates new answer and sends it to back-end.
+   *
+   * @param string socId
+   * @param string questionId
+   * @param string name
+   * @param boolean isAnswer
+   * @returns Subscribable
+   */
   createAnswer(socId: string, questionId: string, name: string, isAnswer: boolean) {
     let generatedId: string;
     const newSocAnswer = new SocAnswer(
@@ -75,6 +102,15 @@ export class SocAnswerService {
       );
   }
 
+  /**
+   * Updates answer and sends it to back-end.
+   *
+   * @param string socId
+   * @param string questionId
+   * @param string name
+   * @param boolean isAnswer
+   * @returns Subscribable
+   */
   updateAnswer(socId: string, questionId: string, answerId: string, name: string, isAnswer: boolean) {
     let generatedId: string;
     const newSocAnswer = new SocAnswer(
@@ -101,6 +137,14 @@ export class SocAnswerService {
       );
   }
 
+  /**
+   * Deletes answer from back-end.
+   *
+   * @param string socId
+   * @param string questionId
+   * @param string answerId
+   * @returns Subscribable.
+   */
   deleteAnswer(socId: string, questionId: string, answerId: string) {
     return this.http.delete(`https://fyp-wnolan.firebaseio.com/soc/${socId}/questions/${questionId}/answers/${answerId}.json`)
       .pipe(switchMap(() => {
