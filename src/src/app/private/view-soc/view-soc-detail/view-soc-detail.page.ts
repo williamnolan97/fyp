@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NavController, AlertController } from '@ionic/angular';
 import { SocsService } from 'src/app/services/socs.service';
 import { SocQuestionService } from 'src/app/services/soc-question.service';
+import { QuestionService } from 'src/app/services/question.service';
 
 @Component({
   selector: 'app-view-soc-detail',
@@ -31,7 +32,8 @@ export class ViewSocDetailPage implements OnInit, OnDestroy {
     private navCtrl: NavController,
     private socsService: SocsService,
     private socQuestionsService: SocQuestionService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private questionsService: QuestionService,
   ) { }
 
   ngOnInit() {
@@ -72,6 +74,10 @@ export class ViewSocDetailPage implements OnInit, OnDestroy {
     this.socQuestionsService.fetchQuestions(this.socId).subscribe(() => {
       this.isLoading = false;
     });
+  }
+
+  reset() {
+    this.questionsService.reset();
   }
 
   ngOnDestroy() {

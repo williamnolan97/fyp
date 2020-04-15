@@ -28,6 +28,7 @@
             color="primary"
             expand="block"
             [routerLink]="['/take-soc', soc.id, loadedSocQuestions[0].id]"
+            (click)="reset()"
           >
           <!-- [routerLink]="['/take-soc','start-soc', soc.id]" -->
             Start SOC
