@@ -5,9 +5,6 @@ import { AuthGuard } from './services/auth.guard';
 const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
   { path: 'auth', loadChildren: './auth/auth.module#AuthPageModule' },
-  // { path: 'socs', loadChildren: './socs/socs.module#SocsPageModule'}, //, canLoad: [AuthGuard]
-  { path: 'register', loadChildren: './public/register/register.module#RegisterPageModule', canLoad: [AuthGuard]},
-  { path: 'login', loadChildren: './public/login/login.module#LoginPageModule' },
   {
     path: 'view-soc',
     loadChildren: () => import('./private/view-soc/view-soc.module').then( m => m.ViewSocPageModule),

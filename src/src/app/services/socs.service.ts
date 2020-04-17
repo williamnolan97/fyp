@@ -248,7 +248,6 @@ export class SocsService {
     )
     .pipe(map(resData => {
       const socs = [];
-      console.log(resData);
       for (const key in resData) {
         if (resData.hasOwnProperty(key)) {
           if (this.socIds.indexOf(key) !== -1 || this.allResultIds.indexOf(key) === -1) {
@@ -301,8 +300,6 @@ export class SocsService {
             }
           }
         }
-        console.log(this.allResultIds);
-        console.log(socs);
         return socs;
       }),
       tap(socs => {
