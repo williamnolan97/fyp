@@ -18,10 +18,8 @@ export class QuestionService {
   progress = 0;
   score = 0;
   streak = 0;
-  streakPoints: number[];
 
   constructor() {
-    this.streakPoints = [50, 75, 125, 200, 300, 450, 700];
   }
 
   /**
@@ -146,11 +144,7 @@ export class QuestionService {
       this.score += Math.round(bonus);
     }
     if (this.streak > 0) {
-      if (this.streak <= this.streakPoints.length) {
-        this.score += this.streakPoints[this.streak - 1];
-      } else {
-        this.score += this.streakPoints[this.streakPoints.length - 1];
-      }
+      this.score += ((this.streak - 1) * 100);
     }
     this.score += 100;
   }
