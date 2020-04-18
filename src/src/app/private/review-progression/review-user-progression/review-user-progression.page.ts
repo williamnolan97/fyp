@@ -1,3 +1,8 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: Typescript file for the review user progression page.
+ */
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
@@ -18,14 +23,16 @@ export class ReviewUserProgressionPage implements OnInit, OnDestroy {
   @ViewChild('lineCanvas', {static: false}) lineCanvas: ElementRef;
 
   private lineChart: Chart;
-  // allResults: AllResults[] = [];
   reviewDetailSub: Subscription;
   userSub: Subscription;
   socs: Soc[];
   user: UserData;
   dataset: object[] = [];
   newData: object[] = [];
-  colors: string[] = ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850']; // ADD MORE COLORS
+  colors: string[] = ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850', '#f57f17',
+                      '#ff1744', '#d500f9', '#2979ff', '#00c853', '#bf360c', '#5d4037',
+                      '#546e7a', '#1a237e', '#006064', '#33691e', '#e65100', '#ffd600',
+                      ]; // ADD MORE COLORS
   isLoading = false;
 
   constructor(
@@ -49,15 +56,10 @@ export class ReviewUserProgressionPage implements OnInit, OnDestroy {
           this.user = user;
           this.isLoading = false;
         });
-      this.reviewDetailService.getSocs(paramMap.get('userId')).subscribe(socs => {
+      this.reviewDetailSub = this.reviewDetailService.getSocs(paramMap.get('userId')).subscribe(socs => {
         console.log(socs);
         this.setChartData(paramMap.get('userId'), socs);
       });
-      // this.reviewDetailSub = this.reviewDetailService.socs.subscribe(socs => {
-      //   this.socs = socs;
-      //   console.log(this.socs);
-      //   this.setChartData(paramMap.get('userId'));
-      // });
     });
   }
 
@@ -65,11 +67,8 @@ export class ReviewUserProgressionPage implements OnInit, OnDestroy {
     this.resultService.getResultObject(userId).subscribe(object => {
       const test = object;
       let index = 0;
-      // console.log(test);
       for (const soc in test) {
         if (test.hasOwnProperty(soc)) {
-          // console.log(test[soc]);
-          // const results = [];
           this.newData = [];
           for (const result in test[soc]) {
             if (test[soc].hasOwnProperty(result)) {
@@ -79,8 +78,6 @@ export class ReviewUserProgressionPage implements OnInit, OnDestroy {
                   y: test[soc][result].result / test[soc][result].total * 100
                 }
               );
-              // console.log(test[soc][result]);
-              // results.push(test[soc][result]);
             }
           }
           this.dataset.push(
@@ -92,19 +89,8 @@ export class ReviewUserProgressionPage implements OnInit, OnDestroy {
             }
           );
           index++;
-          // this.allResults.push(new AllResults(
-          //     soc,
-          //     results
-          //   )
-          // );
-          // console.log(this.allResults);
         }
       }
-      // for (const result in this.allResults) {
-      //   if (this.allResults.hasOwnProperty(result)) {
-      //     console.log(this.allResults[result].socId);
-      //   }
-      // }
       this.setChart();
     });
   }
@@ -143,5 +129,11 @@ export class ReviewUserProgressionPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.userSub) {
+      this.userSub.unsubscribe();
+    }
+    if (this.reviewDetailSub) {
+      this.reviewDetailSub.unsubscribe();
+    }
   }
 }

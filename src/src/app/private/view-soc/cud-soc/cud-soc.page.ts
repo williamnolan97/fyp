@@ -1,3 +1,8 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: Typescript file for the cud soc page.
+ */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormGroupName, Form, Validators, FormControl } from '@angular/forms';
 import { AlertController, LoadingController } from '@ionic/angular';

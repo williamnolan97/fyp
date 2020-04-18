@@ -1,3 +1,8 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: Typescript file for the auth page.
+ */
 import { Component, OnInit } from '@angular/core';
 import { AuthService, AuthResponseData } from '../services/auth.service';
 import { Router } from '@angular/router';

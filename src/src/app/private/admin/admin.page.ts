@@ -1,5 +1,9 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: Typescript file for the admin page.
+ */
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UserData } from 'src/app/models/userData.model';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -58,18 +62,5 @@ export class AdminPage implements OnInit, OnDestroy {
     if (this.usersSub) {
       this.usersSub.unsubscribe();
     }
-  }
-
-  // ngOnInit() {
-  //   // this.form = this.fb.group({
-  //   //   role: new FormControl(null, {
-  //   //     updateOn: 'blur',
-  //   //     validators: [Validators.required]
-  //   //   }),
-  //   // });
-  // }
-
-  onSubmit() {
-
   }
 }

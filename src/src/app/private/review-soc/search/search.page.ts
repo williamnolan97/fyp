@@ -1,3 +1,8 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: Typescript file for the search page.
+ */
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserData } from 'src/app/models/userData.model';
 import { Subscription } from 'rxjs';

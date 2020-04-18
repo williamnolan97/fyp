@@ -1,3 +1,8 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: Typescript file for the view soc result detail page.
+ */
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Result } from 'src/app/models/result.model';
 import { Soc } from 'src/app/models/soc.model';

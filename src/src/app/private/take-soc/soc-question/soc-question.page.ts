@@ -1,3 +1,8 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: Typescript file for the soc question page.
+ */
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Soc } from 'src/app/models/soc.model';
 import { SocQuestion } from 'src/app/models/soc-question.model';

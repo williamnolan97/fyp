@@ -1,3 +1,8 @@
+/**
+ * Name:        Wiliam Nolan
+ * Student ID:  C00216986
+ * Description: Typescript file for the search leaderboard page.
+ */
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SocsService } from 'src/app/services/socs.service';
 import { Subscription } from 'rxjs';
