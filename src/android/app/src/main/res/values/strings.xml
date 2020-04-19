@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">McDonalds</string>
-    <string name="title_activity_main">McDonalds</string>
+    <string name="app_name">McDonalds eLearning</string>
+    <string name="title_activity_main">McDonalds eLearning</string>
     <string name="package_name">com.fyp.McDonalds</string>
     <string name="custom_url_scheme">com.fyp.McDonalds</string>
 </resources>

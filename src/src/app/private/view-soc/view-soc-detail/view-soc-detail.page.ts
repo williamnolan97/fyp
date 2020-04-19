@@ -13,6 +13,8 @@ import { NavController, AlertController } from '@ionic/angular';
 import { SocsService } from 'src/app/services/socs.service';
 import { SocQuestionService } from 'src/app/services/soc-question.service';
 import { QuestionService } from 'src/app/services/question.service';
+import { UserData } from 'src/app/models/userData.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-view-soc-detail',
@@ -30,6 +32,9 @@ export class ViewSocDetailPage implements OnInit, OnDestroy {
   public questionId: string;
   isLoading = false;
   isAnswersLoading = false;
+  userData: UserData;
+  private authSub: Subscription;
+  isLoadingUser = false;
 
   constructor(
     private router: Router,
@@ -39,6 +44,7 @@ export class ViewSocDetailPage implements OnInit, OnDestroy {
     private socQuestionsService: SocQuestionService,
     private alertCtrl: AlertController,
     private questionsService: QuestionService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -71,6 +77,11 @@ export class ViewSocDetailPage implements OnInit, OnDestroy {
     this.socQuestionSub = this.socQuestionsService.socQuestions.subscribe(socQuestions => {
       this.loadedSocQuestions = socQuestions;
     });
+    this.isLoadingUser = true;
+    this.authSub = this.authService.currUser.subscribe(userData => {
+      this.userData = userData;
+      this.isLoadingUser = false;
+    });
   }
 
   ionViewWillEnter() {
@@ -94,6 +105,9 @@ export class ViewSocDetailPage implements OnInit, OnDestroy {
     }
     if (this.socAnswerSub) {
       this.socAnswerSub.unsubscribe();
+    }
+    if (this.authSub) {
+      this.authSub.unsubscribe();
     }
   }
 }
