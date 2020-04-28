@@ -8,6 +8,7 @@
 *.tmp.*
 *.sublime-project
 *.sublime-workspace
+firebase.json
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
